@@ -1,0 +1,97 @@
+﻿@page "/goalentry/{entryName}"
+
+<style>
+    .divScroll
+    {
+      height:100px;
+      outline-style:solid;
+      outline-color:black;
+      overflow-y:scroll;
+    }
+</style>
+
+<head>
+    <title>@entryName</title>
+    <style>   
+    p
+    {
+        padding-top: 20px;
+        text-align: center;
+    }
+    h2
+    {
+        text-align:center;
+    }
+    </style>
+</head>
+
+
+<body>
+    <h2> Goal: @currentEntry.Title</h2>
+    <p> Description: @currentEntry.GoalDescription</p>
+    <p> Total time spent on goal: @currentEntry.TotalTimeSpent</p>
+    <p> Total entries completed: @currentEntry.TotalEntriesCompleted</p>
+    <p> Total actions completed: @currentEntry.TotalActionsCompleted</p>
+    Action questions:
+    <div class="divScroll">
+    @foreach(GoalAction action in currentEntry.EntryData.GoalActions)
+    {
+            @action.Action
+            <br />
+    }
+    </div>
+    <br />
+    Goal Questions:
+    <div class="divScroll">
+        @foreach (GoalEntryQuestion goalQuestion in currentEntry.EntryData.GoalEntryQuestions)
+        {
+            @goalQuestion.Question
+            <br />
+        }
+    </div>
+</body>
+
+<NavigateButton PageToNavigate="@PageToNavigate()" NameOfButton="Enter New Day's Entry">
+</NavigateButton>
+
+@code {
+    [Parameter]
+    public string entryName { get; set; }
+
+    Goal currentEntry;
+    SampleEntryData newEntry = new();
+    List<Goal> exampleEntryList = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        List<Goal> exEntryList = newEntry.exampleEntryList;
+        exampleEntryList = exEntryList;
+        currentEntry = GetEntry();
+    }
+
+    public string PageToNavigate() => $"newdayentry/{entryName}";
+
+    public Goal GetEntry()
+    {
+        /*
+        This method loops through all goal entries to find the matching data for the given title of goal entry.
+        Not sure if this is an efficient way to accomplish this, but it's probably fine because there should only be so many goal entries to go through,
+        since it is only one person's goal list. (if the user sets many micro-goals, this could become an issue)
+        */
+        Goal getEntry = new();
+        foreach(var entry in exampleEntryList)
+        {
+            if (entry.Title == entryName)
+            {
+                getEntry = entry;
+                return getEntry;
+            }
+            else
+            {
+                getEntry = null;
+            }   
+        }
+        return getEntry;
+    }
+}

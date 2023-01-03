@@ -1,0 +1,99 @@
+﻿@page "/"
+
+<style>
+  table, th, td  {
+  overflow-y:scroll;
+  border-bottom:1px solid black;
+  border-collapse: collapse;
+  height: 100px;
+  text-align: center;
+  background-color: #9370db;
+}
+
+.button {
+  transition-duration: 0.4s;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  opacity: 1
+}
+
+
+</style>
+<body>
+
+<h2>Current Entries</h2>
+
+<table style="width:100%">
+    <tr>
+        <th>Test</th>
+    </tr>
+
+</table>
+
+<div style="text-align: center;">
+    <button id="newentry" onclick="GoToNewEntry" class="button">Add New Entry</button>
+    </div>
+</body>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            SampleEntryData newEntry = new SampleEntryData();
+            List<Goal> exampleEntryList = newEntry.exampleEntryList;
+            foreach(var entry in exampleEntryList)
+            {
+                Console.WriteLine($"Testing to see if entry data comes through: {entry.Title}");
+            }
+        }
+        catch(NullReferenceException ex)
+        {
+            Console.WriteLine($"Exception from new instance: {ex}");
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"2 Next Exception from new instance: {ex}");
+        }
+
+     }
+
+
+  //  SampleEntryData newEntry = new();
+    // List<Entry> exampleEntryList = new();
+
+    //TODO: entry list is in SampleEntryData.cs, it just needs to be accessed.
+    //Need some kind of for loop to display all the entries
+    //Need a html display that can hold the information from each entry
+
+    /*@foreach(var entry in exampleEntryList)
+    {
+            <tr>
+    <th>
+    @entry.Title
+        </th>
+        <td>
+    @entry.GoalDescription
+    </td>
+    </tr>
+    }*/
+
+    //  protected override async Task OnInitializedAsync()
+    // {
+    //     List<Entry> exampleEntryList = newEntry.exampleEntryList;
+
+    // }
+
+
+
+
+}
