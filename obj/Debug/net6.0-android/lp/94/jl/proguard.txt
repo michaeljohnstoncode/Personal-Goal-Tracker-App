@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Copyright (C) 2020 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,3 +22,9 @@
 -dontwarn kotlin.annotation.AnnotationTarget
 -dontwarn kotlin.annotation.Retention
 -dontwarn kotlin.annotation.Target
+=======
+-keep class * implements androidx.versionedparcelable.VersionedParcelable
+-keep public class android.support.**Parcelizer { *; }
+-keep public class androidx.**Parcelizer { *; }
+-keep public class androidx.versionedparcelable.ParcelImpl
+>>>>>>> Stashed changes

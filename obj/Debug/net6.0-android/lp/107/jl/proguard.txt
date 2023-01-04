@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Copyright (C) 2020 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,4 +17,12 @@
 -if public class ** extends androidx.fragment.app.Fragment
 -keepclasseswithmembers,allowobfuscation public class <1> {
     public <init>();
+=======
+-keepclassmembers,allowobfuscation class * extends androidx.lifecycle.ViewModel {
+    <init>(androidx.lifecycle.SavedStateHandle);
+}
+
+-keepclassmembers,allowobfuscation class * extends androidx.lifecycle.AndroidViewModel {
+    <init>(android.app.Application,androidx.lifecycle.SavedStateHandle);
+>>>>>>> Stashed changes
 }

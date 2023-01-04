@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< Updated upstream
     <dimen name="material_time_picker_minimum_screen_height">450dp</dimen>
     <dimen name="material_time_picker_minimum_screen_width">600dp</dimen>
     <dimen name="mtrl_alert_dialog_background_inset_bottom">24dp</dimen>
@@ -38,4 +39,9 @@
     <style name="Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton" parent="Base.Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton">
     <item name="android:layout_gravity">bottom|start</item>
   </style>
+=======
+    <dimen name="abc_action_bar_default_height_material">48dp</dimen>
+    <dimen name="abc_text_size_subtitle_material_toolbar">12dp</dimen>
+    <dimen name="abc_text_size_title_material_toolbar">14dp</dimen>
+>>>>>>> Stashed changes
 </resources>

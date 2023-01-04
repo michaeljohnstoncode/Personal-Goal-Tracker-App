@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Copyright (C) 2015 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +22,8 @@
 # Make sure we keep annotations for CoordinatorLayout's DefaultBehavior
 -keepattributes RuntimeVisible*Annotation*
 
+=======
+>>>>>>> Stashed changes
 # Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +38,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+<<<<<<< Updated upstream
 # AppCompatViewInflater reads the viewInflaterClass theme attribute which then
 # reflectively instantiates MaterialComponentsViewInflater using the no-argument
 # constructor. We only need to keep this constructor and the class name if
@@ -44,3 +48,13 @@
     <init>();
 }
 
+=======
+# aapt is not able to read app::actionViewClass and app:actionProviderClass to produce proguard
+# keep rules. Add a commonly used SearchView to the keep list until b/109831488 is resolved.
+-keep class androidx.appcompat.widget.SearchView { <init>(...); }
+
+# Never inline methods, but allow shrinking and obfuscation.
+-keepclassmembernames,allowobfuscation,allowshrinking class androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper$Impl* {
+  <methods>;
+}
+>>>>>>> Stashed changes

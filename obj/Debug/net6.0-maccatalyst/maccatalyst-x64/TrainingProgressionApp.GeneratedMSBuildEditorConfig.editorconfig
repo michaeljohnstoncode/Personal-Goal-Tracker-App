@@ -9,6 +9,7 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TrainingProgressionApp
 build_property.RootNamespace = TrainingProgressionApp
+<<<<<<< Updated upstream
 build_property.ProjectDir = C:\Users\Michael\source\repos\TrainingProgressionApp\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
@@ -17,97 +18,159 @@ build_property.MSBuildProjectDirectory = C:\Users\Michael\source\repos\TrainingP
 build_property._RazorSourceGeneratorDebug = 
 
 [C:/Users/Michael/source/repos/TrainingProgressionApp/App.xaml]
+=======
+build_property.ProjectDir = C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Michael\source\repos\TrackingProgessionMauiApplication
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/App.xaml]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = TrainingProgressionApp.App.xaml
 build_metadata.AdditionalFiles.TargetPath = App.xaml
 build_metadata.AdditionalFiles.RelativePath = App.xaml
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/MainPage.xaml]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/MainPage.xaml]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = TrainingProgressionApp.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Main.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Main.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = TWFpbi5yYXpvcg==
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/FetchData.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/FetchData.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/GoalEntry.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/GoalEntry.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR29hbEVudHJ5LnJhem9y
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/Goals.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/Goals.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR29hbHMucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/Index.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/Index.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/NavigateButton.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/NavigateButton.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmF2aWdhdGVCdXR0b24ucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/NewDayEntry.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/NewDayEntry.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3RGF5RW50cnkucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Pages/NewGoal.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Pages/NewGoal.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3R29hbC5yYXpvcg==
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Shared/SurveyPrompt.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Shared/SurveyPrompt.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/_Imports.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/_Imports.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Shared/MainLayout.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Shared/MainLayout.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.RelativePath = 
 build_metadata.AdditionalFiles.CssScope = b-3t35ewfuyr
 
+<<<<<<< Updated upstream
 [C:/Users/Michael/source/repos/TrainingProgressionApp/Shared/NavMenu.razor]
+=======
+[C:/Users/Michael/source/repos/TrackingProgessionMauiApplication/Shared/NavMenu.razor]
+>>>>>>> Stashed changes
 build_metadata.AdditionalFiles.GenKind = 
 build_metadata.AdditionalFiles.ManifestResourceName = 
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< Updated upstream
     <declare-styleable name="AnimatedStateListDrawableCompat">
         <!-- Indicates whether the drawable should be initially visible. -->
         <attr name="android:visible"/>
@@ -76,5 +77,13 @@
         <!-- Reference to a drawable resource to use for the state. If not
              given, the drawable must be defined by the first child tag. -->
         <attr name="android:drawable"/>
+=======
+    <attr format="reference" name="drawerLayoutStyle"/>
+    <attr format="dimension" name="elevation"/>
+    <dimen name="def_drawer_elevation">10dp</dimen>
+    <declare-styleable name="DrawerLayout">
+        <!-- The height difference between the drawer and the base surface. Only takes effect on API 21 and above -->
+        <attr name="elevation"/>
+>>>>>>> Stashed changes
     </declare-styleable>
 </resources>

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp\157\jl\res\anim\nav_default_enter_anim.xml
 C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp\157\jl\res\anim\nav_default_exit_anim.xml
 C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp\157\jl\res\anim\nav_default_pop_enter_anim.xml
@@ -10,3 +11,12 @@ C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp
 C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp\157\jl\res\values\attr.xml
 C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp\157\jl\res\values\colors.xml
 C:\Users\Michael\source\repos\TrainingProgressionApp\obj\Debug\net6.0-android\lp\157\jl\res\values\styles.xml
+=======
+﻿C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\anim\enterfromleft.xml
+C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\anim\enterfromright.xml
+C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\anim\exittoleft.xml
+C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\anim\exittoright.xml
+C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\layout\flyoutcontent.xml
+C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\layout\shellcontent.xml
+C:\Users\Michael\source\repos\TrackingProgessionMauiApplication\obj\Debug\net6.0-android\lp\157\jl\res\values\strings.xml
+>>>>>>> Stashed changes

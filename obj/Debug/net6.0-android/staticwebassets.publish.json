@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< Updated upstream
   "Hash": "rIBAWmre8Btjgp4lE6l4XeBAmj9OlEtM4dMLm/qqXS4=",
+=======
+  "Hash": "0lVRfkrA/X+pa5eZi/BirqMgKi33oro+6o0aHID17Zg=",
+>>>>>>> Stashed changes
   "Source": "TrainingProgressionApp",
   "BasePath": "/",
   "Mode": "Root",
@@ -10,17 +14,28 @@
     {
       "Name": "TrainingProgressionApp\\wwwroot",
       "Source": "TrainingProgressionApp",
+<<<<<<< Updated upstream
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\obj\\Debug\\net6.0-android\\scopedcss\\bundle\\TrainingProgressionApp.styles.css",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\obj\\Debug\\net6.0-android\\scopedcss\\bundle\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\obj\\Debug\\net6.0-android\\scopedcss\\bundle\\TrainingProgressionApp.styles.css",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\obj\\Debug\\net6.0-android\\scopedcss\\bundle\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "TrainingProgressionApp.styles.css",
       "AssetKind": "All",
@@ -31,6 +46,7 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
+<<<<<<< Updated upstream
       "OriginalItemSpec": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\obj\\Debug\\net6.0-android\\scopedcss\\bundle\\TrainingProgressionApp.styles.css"
     },
     {
@@ -38,6 +54,15 @@
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\obj\\Debug\\net6.0-android\\scopedcss\\projectbundle\\",
+=======
+      "OriginalItemSpec": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\obj\\Debug\\net6.0-android\\scopedcss\\bundle\\TrainingProgressionApp.styles.css"
+    },
+    {
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\obj\\Debug\\net6.0-android\\scopedcss\\projectbundle\\TrainingProgressionApp.bundle.scp.css",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\obj\\Debug\\net6.0-android\\scopedcss\\projectbundle\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "TrainingProgressionApp.bundle.scp.css",
       "AssetKind": "All",
@@ -48,6 +73,7 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
+<<<<<<< Updated upstream
       "OriginalItemSpec": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\obj\\Debug\\net6.0-android\\scopedcss\\projectbundle\\TrainingProgressionApp.bundle.scp.css"
     },
     {
@@ -55,6 +81,15 @@
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "OriginalItemSpec": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\obj\\Debug\\net6.0-android\\scopedcss\\projectbundle\\TrainingProgressionApp.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\app.css",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/app.css",
       "AssetKind": "All",
@@ -68,10 +103,17 @@
       "OriginalItemSpec": "wwwroot\\css\\app.css"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -85,10 +127,17 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -102,10 +151,17 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "AssetKind": "All",
@@ -119,10 +175,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.eot",
       "AssetKind": "All",
@@ -136,10 +199,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.otf",
       "AssetKind": "All",
@@ -153,10 +223,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.svg",
       "AssetKind": "All",
@@ -170,10 +247,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.ttf",
       "AssetKind": "All",
@@ -187,10 +271,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.woff",
       "AssetKind": "All",
@@ -204,10 +295,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/FONT-LICENSE",
       "AssetKind": "All",
@@ -221,10 +319,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/ICON-LICENSE",
       "AssetKind": "All",
@@ -238,10 +343,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\ICON-LICENSE"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\css\\open-iconic\\README.md",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\css\\open-iconic\\README.md",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "css/open-iconic/README.md",
       "AssetKind": "All",
@@ -255,10 +367,17 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\README.md"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\favicon.ico",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\favicon.ico",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -272,10 +391,17 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+<<<<<<< Updated upstream
       "Identity": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\index.html",
       "SourceId": "TrainingProgressionApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrainingProgressionApp\\wwwroot\\",
+=======
+      "Identity": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\index.html",
+      "SourceId": "TrainingProgressionApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Michael\\source\\repos\\TrackingProgessionMauiApplication\\wwwroot\\",
+>>>>>>> Stashed changes
       "BasePath": "/",
       "RelativePath": "index.html",
       "AssetKind": "All",

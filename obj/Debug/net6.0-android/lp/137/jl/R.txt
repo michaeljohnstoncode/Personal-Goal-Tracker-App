@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 int attr action 0x0
 int attr argType 0x0
 int attr destination 0x0
@@ -43,3 +44,6 @@ int[] styleable Navigator { 0x10100d0, 0x1010001, 0x0 }
 int styleable Navigator_android_id 0
 int styleable Navigator_android_label 1
 int styleable Navigator_route 2
+=======
+int id view_tree_saved_state_registry_owner 0x0
+>>>>>>> Stashed changes

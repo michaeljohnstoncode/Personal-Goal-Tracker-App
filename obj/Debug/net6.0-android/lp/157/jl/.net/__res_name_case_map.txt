@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 anim/nav_default_enter_anim.xml;anim/nav_default_enter_anim.xml
 anim/nav_default_exit_anim.xml;anim/nav_default_exit_anim.xml
 anim/nav_default_pop_enter_anim.xml;anim/nav_default_pop_enter_anim.xml
@@ -22,3 +23,17 @@ values/styles.xml;values/styles.xml
 Layout/drawer_layout.axml;layout/drawer_layout.xml
 Layout/fragment_backstack.axml;layout/fragment_backstack.xml
 Layout/navigationlayout.axml;layout/navigationlayout.xml
+=======
+anim/enterfromleft.xml;anim/enterfromleft.xml
+anim/enterfromright.xml;anim/enterfromright.xml
+anim/exittoleft.xml;anim/exittoleft.xml
+anim/exittoright.xml;anim/exittoright.xml
+values/strings.xml;values/strings.xml
+anim/enterfromleft.xml;anim/enterfromleft.xml
+anim/enterfromright.xml;anim/enterfromright.xml
+anim/exittoleft.xml;anim/exittoleft.xml
+anim/exittoright.xml;anim/exittoright.xml
+values/strings.xml;values/strings.xml
+Compatibility/Android/Resources/Layout/flyoutcontent.axml;layout/flyoutcontent.xml
+Compatibility/Android/Resources/Layout/shellcontent.axml;layout/shellcontent.xml
+>>>>>>> Stashed changes

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< Updated upstream
     <item name="fragment_container_view_tag" type="id"/>
     <item name="special_effects_controller_view_tag" type="id"/>
     <item name="visible_removing_fragment_view_tag" type="id"/>
@@ -12,4 +13,6 @@
         <attr name="android:name"/>
         <attr name="android:tag"/>
     </declare-styleable>
+=======
+>>>>>>> Stashed changes
 </resources>
