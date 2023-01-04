@@ -9,6 +9,16 @@ namespace TrainingProgressionApp.Data
 {
 	public class Goal
 	{
+		public Goal(GoalModel model)
+		{
+            Title = model.Title;
+            GoalDescription = model.GoalDescription;
+            AddTimeSpent = model.AddTimeSpent;
+            TotalTimeSpent = model.TotalTimeSpent;
+            TotalActionsCompleted = model.TotalActionsCompleted;
+            TotalEntriesCompleted = model.TotalEntriesCompleted;
+            GoalEntriesData = model.GoalEntriesData;
+        }
 		public string Title { get; set; }
 		public string GoalDescription { get; set; }
 		public bool AddTimeSpent { get; set; }

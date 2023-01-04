@@ -1,5 +1,7 @@
 ﻿@page "/goals"
 @inject NavigationManager Navigation
+@using TrainingProgressionApp.Pages.Components
+@inherits GoalsComponent
 
 <style>
   table, th, td  {
@@ -18,7 +20,7 @@
 
 <table style="width:100%">
   
-    @foreach(var entry in exampleEntryList)
+    @foreach(var entry in ExampleEntryList)
     {
      <button id="entrytitle" @onclick="() => ChosenEntryNavigation(entry.Title)">
       <tr>
@@ -41,17 +43,6 @@
 
 
 @code {
-
-    SampleEntryData newEntry = new();
-    List<Goal> exampleEntryList = new();
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        List<Goal> exEntryList = newEntry.exampleEntryList;
-        exampleEntryList = exEntryList;
-    }
-
     public void NavigateNewEntry()
     {
         Navigation.NavigateTo("newgoal");
@@ -63,5 +54,4 @@
         Console.WriteLine($"entryTitle attempt to navigate to page {entryName}");
         Navigation.NavigateTo($"goalentry/{entryName}");
     }
-
 }

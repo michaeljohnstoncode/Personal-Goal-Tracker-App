@@ -23,7 +23,7 @@ public static class MauiProgram
 		
 		builder.Services.AddSingleton<SampleEntryData>();
         builder.Services.AddSingleton<Goal>();
-		builder.Services.AddSingleton<GoalDatabase>();
+		builder.Services.AddSingleton<OldGoalDatabase>();
 
 		return builder.Build();
 	}

@@ -1,5 +1,5 @@
 ﻿@page "/newgoal"
-@inject GoalDatabase goalDatabase;
+@inject OldGoalDatabase goalDatabase;
 
 <head>
     <title>New Goal Entry</title>
@@ -65,7 +65,7 @@
     public string goalDescription { get; set; }
     public bool addTimeSpent { get; set; } = true;
 
-    GoalDatabase database;
+    OldGoalDatabase database;
     Goal newGoal = new();
     SampleQuestions sampleQuestions = new();
     List<ExampleGoalQuestions> exampleGoalQuestions = new();

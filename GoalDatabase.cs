@@ -8,11 +8,13 @@ using TrainingProgressionApp.Data;
 
 namespace TrainingProgressionApp
 {
-    public class GoalDatabase
+
+
+    public class OldGoalDatabase
     {
         public SQLiteAsyncConnection Database;
 
-        public GoalDatabase()
+        public OldGoalDatabase()
         {
         }
 
@@ -20,11 +22,12 @@ namespace TrainingProgressionApp
         {
             if (Database is not null)
                 return;
-
+            
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            var result = await Database.CreateTableAsync<Goal>(); // <----- This is where I get the NotSupportedException error
-            Console.WriteLine("Test for result below");
-            Console.Write(result.ToString());
+            await Database.CreateTableAsync<GoalModel>();
+            //var result = await Database.CreateTableAsync<Goal>(); // <----- This is where I get the NotSupportedException error
+            //Console.WriteLine("Test for result below");
+            //Console.Write(result.ToString());
         }
         public async Task<List<Goal>> GetItemsAsync()
         {
