@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< Updated upstream
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bumptech.glide.gifdecoder" >
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="28" />
-
-    <application />
-=======
 <!--
  Copyright (C) 2014 The Android Open Source Project
 
@@ -25,9 +15,10 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="androidx.legacy.v4" >
+    package="androidx.media" >
 
-    <uses-sdk android:minSdkVersion="14" />
->>>>>>> Stashed changes
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="31" />
 
 </manifest>

@@ -11,7 +11,6 @@ SQLitePCLRaw.batteries_v2.dll
 SQLitePCLRaw.lib.e_sqlite3.android.dll
 =======
 SQLitePCLRaw.batteries_green.dll
-SQLitePCLRaw.batteries_v2.dll
 SQLitePCLRaw.core.dll
 SQLitePCLRaw.lib.e_sqlite3.dll
 SQLitePCLRaw.provider.e_sqlite3.dll
@@ -165,8 +164,5 @@ Microsoft.Maui.Controls.Compatibility.aar
 maui.aar
 Microsoft.Maui.aar
 Microsoft.Maui.Essentials.aar
-<<<<<<< Updated upstream
 SQLitePCLRaw.lib.e_sqlite3.android.aar
-=======
->>>>>>> Stashed changes
 Xamarin.Google.Crypto.Tink.Android.aar
