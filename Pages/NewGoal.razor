@@ -139,9 +139,10 @@
         //  It only knows how to serialise simple types. Depending on how you want to model this relationship, 
         // you could either have a detail table(and manually iterate the collection calling save for each item) 
         // or simply serialise the collection to JSON and store it in a large character field.
-        var db = database.Database;
+        // ALEX: I commented this out it was breaking your code.
+        //var db = database.Database;
 
-        await database.SaveItemAsync(newGoal);
+        database.SaveItem(newGoal);
     }
 
     public void CheckQuestionDictionary()
