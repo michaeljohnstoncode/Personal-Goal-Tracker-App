@@ -1,0 +1,38 @@
+﻿@*
+    Button component used to navigate back to the previous page.
+    Input a string to the PageToNavigate variable to specify the page to navigate to.
+*@
+
+@inject NavigationManager Navigation
+
+<style>
+
+    .backbutton {
+        background-color: #09A71A;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+    }
+</style>
+
+<button class="backbutton" style="@Style" @onclick="NavigateToPage"> &#8592; Back  </button>
+
+@code {
+    [Parameter]
+    public string PageToNavigate { get; set; } 
+    [Parameter]
+    public string Style { get; set; }
+
+    public void NavigateToPage()
+    {
+        Navigation.NavigateTo(PageToNavigate);
+    }
+
+}

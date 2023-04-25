@@ -1,0 +1,216 @@
+﻿@*
+    This page will display each question of the goal one at a time, where the user will click a rating (1-10) and optionally answer a description for why they chose that rating.
+*@
+
+@page "/newdayentry/answerquestions/{goalTitle}/{entryDate}"
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+
+<style>
+    .center {
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+    }
+
+    .textcenter {
+        text-align: center;
+        font-size: 2rem;
+        color: #a26eba;
+    }
+
+    .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .button-default {
+        width: 60px;
+        height: 60px;
+        margin: 3px;
+        margin-bottom: 8px;
+    }
+
+    .button-selected {
+        border: 4px solid #000;
+        width: 60px;
+        height: 60px;
+        margin: 3px;
+        margin-bottom: 8px;
+    }
+
+    .bottom-section {
+        background-color: #4caf50;
+        padding: 30px 15px;
+        min-height: 30vh;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .rating-description-label {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .input-description {
+        display: block;
+        width: 100%;
+        height: 125px;
+        resize: none;
+        overflow-wrap: break-word;
+    }
+
+    .submit-button {
+        background-color: #4caf50;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+    }
+
+</style>
+
+
+<div class="center">
+    <div>
+        <!-- Display current question -->
+        <div class="textcenter">
+            <label for="question"> Question: </label>
+            <br />
+            <a id="question" style="font-weight:bold;"> @currentQuestion</a>
+        </div>
+
+        <br />
+        <div class="button-row">
+
+            @{
+                var buttonColors = new string[]
+                {
+            "#9e0000", "#ff2f2f", "#da8800", "#ff952f", "#f7e030",
+            "#ffe72f", "#b2ff2f", "#71ff2f", "#5fbf28", "#178604"
+                };
+            }
+            <!-- Displays each button, and on click will set the rating for the question -->
+            <!-- this doesn't feel like the best solution, I tried a for loop but I couldn't get it to work as intended -->
+            <button @onclick="() => SetRatingNum(1)" class="@(questionRatingNum == 1 ? "button-selected" : "button-default")" style="background-color: @buttonColors[0];">1</button>
+            <button @onclick="() => SetRatingNum(2)" class="@(questionRatingNum == 2 ? "button-selected" : "button-default")" style="background-color: @buttonColors[1];">2</button>
+            <button @onclick="() => SetRatingNum(3)" class="@(questionRatingNum == 3 ? "button-selected" : "button-default")" style="background-color: @buttonColors[2];">3</button>
+            <button @onclick="() => SetRatingNum(4)" class="@(questionRatingNum == 4 ? "button-selected" : "button-default")" style="background-color: @buttonColors[3];">4</button>
+            <button @onclick="() => SetRatingNum(5)" class="@(questionRatingNum == 5 ? "button-selected" : "button-default")" style="background-color: @buttonColors[4];">5</button>
+            <br />
+            <button @onclick="() => SetRatingNum(6)" class="@(questionRatingNum == 6 ? "button-selected" : "button-default")" style="background-color: @buttonColors[5];">6</button>
+            <button @onclick="() => SetRatingNum(7)" class="@(questionRatingNum == 7 ? "button-selected" : "button-default")" style="background-color: @buttonColors[6];">7</button>
+            <button @onclick="() => SetRatingNum(8)" class="@(questionRatingNum == 8 ? "button-selected" : "button-default")" style="background-color: @buttonColors[7];">8</button>
+            <button @onclick="() => SetRatingNum(9)" class="@(questionRatingNum == 9 ? "button-selected" : "button-default")" style="background-color: @buttonColors[8];">9</button>
+            <button @onclick="() => SetRatingNum(10)" class="@(questionRatingNum == 10 ? "button-selected" : "button-default")" style="background-color: @buttonColors[9]; text-align: center;">10</button>
+
+        </div>
+        @if (showValidationMessage)
+        {
+            <p class="validation-message">Please select a rating.</p>
+        }
+        <br />
+        <br />
+        <br />
+        <!-- (Optional for user) Displays text area where the user can answer the description for rating -->
+        <div class="bottom-section">
+            <label for="ratingDescription" class="rating-description-label">Explain why you gave the question this rating (optional):</label>
+            <textarea @bind="ratingDescription" class="input-description"></textarea>
+        </div>
+        <br />
+        <EditForm Model="currentGoal" OnValidSubmit="SubmitForm">
+            <button input type="submit" class="submit-button">@nameOfButton</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    [Parameter]
+    public string entryDate { get; set; }
+
+    Goal currentGoal = new();
+    List<GoalQuestion> questions = new();
+    private string currentQuestion;
+    private int questionRatingNum = -1;
+    private string ratingDescription;
+    private int questionIndex = 0;
+    private string nameOfButton = "Next Question";
+    private bool isRatingSelected => questionRatingNum != -1;
+    private bool showValidationMessage = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+        questions = currentGoal.EntryData.GoalQuestions;
+        currentQuestion = currentGoal.EntryData.GoalQuestions[questionIndex].Question;
+    }
+
+    private void SetRatingNum(int ratingNum)
+    {
+        questionRatingNum = ratingNum;
+        showValidationMessage = false;
+    }
+
+    private async void SubmitForm()
+    {
+        // if a rating is not selected, then stop form submission and display a message that tells the user they must select a rating
+        if (!isRatingSelected)
+        {
+            showValidationMessage = true;
+            return;
+        }
+        
+        QuestionRating questionRating = new()
+        {
+            Rating = (int)questionRatingNum,
+            RatingDescription = ratingDescription,
+            QuestionAnsweredDate = entryDate,
+        };
+
+        currentGoal.EntryData.GoalQuestions[questionIndex].ListQuestionRatings.Add(questionRating);
+        
+        //resets the rating and description input for the next question
+        questionRatingNum = -1;
+        ratingDescription = "";
+        
+        // this will cycle to the next question when the user submits their answer, and if the last question is answered, the form will be submitted and the user will be redirected accordingly.
+        if (questionIndex < questions.Count - 1)
+        {
+            questionIndex++;
+            currentQuestion = currentGoal.EntryData.GoalQuestions[questionIndex].Question;
+            if (questionIndex == questions.Count - 1)
+            {
+                nameOfButton = "Answer Actions";
+
+                if (currentGoal.EntryData.GoalActions.Count <= 0)
+                    nameOfButton = "Complete Entry";
+            }
+        }
+        // save question answer data and redirect user
+        else
+        {
+            if (currentGoal.EntryData.GoalActions.Count > 0)
+            {
+                goalDatabase.SaveItem(currentGoal);
+                Navigation.NavigateTo($"/newdayentry/answeractions/{goalTitle}/{entryDate}");
+            }
+            else
+            {
+                currentGoal.EntryData.NewEntryDates.Add(entryDate);
+                goalDatabase.SaveItem(currentGoal);
+                Navigation.NavigateTo("/goals");
+            }
+        }
+    }
+}

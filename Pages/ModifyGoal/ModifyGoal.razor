@@ -1,0 +1,138 @@
+﻿@*
+    This page displays the options to modify a goal. 
+    The user can change if time spent is tracked, if they want to receive notifications (to be implemented), and navigation buttons to modify the questions or actions of goal
+*@
+
+@page "/goals/modifygoal/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+@inject NavigationManager Navigation
+
+<style>
+    .modify-goal-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .modify-goal-header {
+        color: #a26eba;
+        font-size: 2.8rem;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 3px; 
+    }
+
+    .checkbox-container {
+        display: flex;
+        font-size: 1.2rem;
+        color: #09A71A;
+
+    }
+
+    .button-container{
+        display:inline-block;
+        
+    }
+
+    .buttondesign {
+        background-color: #09A71A;
+        border: none;
+        color: white;
+        padding: 20px 40px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        opacity: 1;
+    }
+
+</style>
+
+<div>
+
+    <h4 style="top: 20px; position:center;    justify-content: center; display: flex;">Modify Goal: </h4>
+</div>
+
+<div class="modify-goal-container">
+    <h1 class="modify-goal-header"> @goalTitle </h1>
+    <div class="checkbox-container">
+        <label for="add-time-spent"> Do you want to measure time spent? </label>
+
+        <!-- This ensures page data is properly aligned with the selected goal-->
+        @if(goalTitle != currentGoal.Title)
+        {
+            SetCurrentGoal();   
+        }
+
+        <!-- Bool to represent if time spent is tracked or not using a checkbox -->
+        @if(TimeSpentState() == true)
+        {
+            <input type="checkbox" id="add-time-spent" @onchange="eventArgs => { IsTimeSpentChecked(eventArgs.Value); }" checked/>
+        }
+        else
+        {
+           <input type="checkbox" id="add-time-spent" @onchange="eventArgs => { IsTimeSpentChecked(eventArgs.Value); }" /> 
+        }
+    </div>
+    <!-- Bool to represent if user wants to receive notifications for goal or not using a checkbox, and options for notification frequency -->
+    <div class="checkbox-container">
+       <div style="font-size: 0.8rem; color: rgba(0,0,0,.3);"> (to be implemented) </div>
+       <label for="receive-notification"> Receive notifications? </label>
+       <input type="checkbox" id="receive-notification" @onchange="eventArgs => { ReceiveNotifications(eventArgs.Value); }"/>
+    </div>
+       <div class="button-container">
+          <button>Hour</button>
+          <button>Daily</button>
+          <button>Weekly</button>
+          <button>Monthly</button>
+          <button>Yearly</button>
+       </div>
+        <br />
+        <br />
+    <!-- Navigate buttons to modify questions or actions of a goal -->
+    <button class="buttondesign" @onclick="NavigateModifyQuestionsPage">Modify Questions</button>
+    <br />
+    <button class="buttondesign" @onclick="NavigateModifyActionsPage">Modify Actions</button>
+</div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    Goal currentGoal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetCurrentGoal();
+    }
+
+    private void SetCurrentGoal() => currentGoal = goalDatabase.GetItem(goalTitle);
+
+    private bool TimeSpentState()
+    {
+        if(currentGoal.AddTimeSpent == true)
+            return true;
+        else
+            return false;
+    }
+
+    private void IsTimeSpentChecked(object isChecked)
+    {
+        if((bool)isChecked == true)
+            currentGoal.AddTimeSpent = true;
+        else
+            currentGoal.AddTimeSpent = false;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    private void ReceiveNotifications(object isChecked)
+    {
+        //To be implemented
+        
+    }
+
+    private void NavigateModifyQuestionsPage() => Navigation.NavigateTo($"/goals/modifygoal/modifyquestions/{goalTitle}");
+
+    private void NavigateModifyActionsPage() => Navigation.NavigateTo($"/goals/modifygoal/modifyactions/{goalTitle}");
+}

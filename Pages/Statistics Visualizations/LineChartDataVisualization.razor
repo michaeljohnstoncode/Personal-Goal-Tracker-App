@@ -1,0 +1,28 @@
+﻿@*
+    This page displays each line chart onto this single page.
+    I don't think this is the best way to do this, but it works for now. There are reusable functions each line chart page, but some have small differences between them and I don't know how to make them more abstract.
+    This code should be revisited.
+*@
+
+@page "/statistics/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+
+<QuestionLineChart goalTitle="@goalTitle" ></QuestionLineChart>
+
+<br />
+<br />
+
+<ActionLineChart goalTitle="@goalTitle" ></ActionLineChart>
+
+<br />
+<br />
+
+<TimeSpentLineChart goalTitle="@goalTitle" ></TimeSpentLineChart>
+
+<br />
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+
+}

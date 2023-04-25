@@ -1,0 +1,144 @@
+﻿@*
+    This page will display actions of a goal, with the ability to modify them. Actions may be added, deleted, or archived.
+*@
+
+@page "/goals/modifygoal/modifyactions/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+
+<style>
+    .action-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 16px;
+    }
+
+    .action-item {
+        display: flex;
+        align-items: center;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+        .action-item > * {
+            margin-right: 8px;
+        }
+
+    .action-input {
+        margin-bottom: 24px;
+    }
+
+        .action-input textarea {
+            width: 100%;
+            height: 100px;
+            resize: none;
+        }
+
+        .action-input button,
+        .action-item .modal-confirm-prompt__button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }
+
+</style>
+
+<BackPageButton PageToNavigate=@NavigateBackPage()> </BackPageButton>
+
+<!-- Add actions -->
+<div class="modify-actions-container">
+    <div class="action-input">
+        <label for="actioninput">Add Action:</label>
+        <textarea @bind="currentAction" name="actioninput"></textarea>
+        <button @onclick="@AddAction">Add</button>
+    </div>
+
+    <!--  Display the actions and includes the option to archive them -->
+    <div>
+        @foreach (var action in goalActions)
+        {
+            <ul class="action-list">
+                <li class="action-item">
+                    <span>@action.Action</span>
+                    <ModalConfirmPrompt buttonName="Archive" messageContent="Are you sure you want to archive this?" OnClickCallback="() => ArchiveAction(action)" ActionConfirmName="Archive">
+
+                    </ModalConfirmPrompt>
+                </li>
+            </ul>
+        }
+    </div>
+
+    <NavigateButton NameOfButton="Archive Actions ->" PageToNavigate="@NavigateArchivedActions()" Style="bottom: 10px; right: 10px;"></NavigateButton>
+</div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    private Goal currentGoal;
+    private List<GoalAction> goalActions = new();
+    private List<GoalAction> archivedGoalActions = new();
+    private string currentAction;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+        goalActions = currentGoal.EntryData.GoalActions;
+
+        // if first time modifying actions, create a new archivedGoalActions list. else use the existing list
+        if (currentGoal.EntryData.ArchivedGoalActions == null)
+            archivedGoalActions = new();
+        else
+            archivedGoalActions = currentGoal.EntryData.ArchivedGoalActions;
+    }
+
+    private void AddAction()
+    {
+        GoalAction goalAction;
+        goalAction = new()
+        {
+            Action = currentAction,
+            ActionCompleted = new(),
+            TotalActionsCompleted = new(),
+            ListActionsCompleted = new(),
+            ActionCreationDate = DateTime.Now.ToString("dddd , MMMM d yyyy"),
+        };
+        SaveAction(goalAction);
+        //clear text input field
+        currentAction = string.Empty;
+    }
+
+    private void SaveAction(GoalAction goalAction)
+    {
+        goalActions.Add(goalAction);
+        currentGoal.EntryData.GoalActions = goalActions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    private void ArchiveAction(GoalAction action)
+    {
+        RemoveAction(action);
+        archivedGoalActions.Add(action);
+        currentGoal.EntryData.ArchivedGoalActions = archivedGoalActions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    private void RemoveAction(GoalAction question)
+    {
+        goalActions.Remove(question);
+        currentGoal.EntryData.GoalActions = goalActions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    public string NavigateBackPage() => $"/goals/modifygoal/{goalTitle}";
+
+    public string NavigateArchivedActions() => $"/goals/modifygoal/modifyactions/archivedactions/{goalTitle}";
+}

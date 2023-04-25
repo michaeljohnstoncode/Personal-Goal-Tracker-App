@@ -1,0 +1,82 @@
+﻿@*
+    Button component to display a modal dialog with a confirm prompt
+    Input true on trashIcon if you want to display a trash icon as the button. Or, if false, input a string to buttonName.
+    Input a string to messageContent to specify the message to display in the modal dialog.
+*@
+
+<style>
+    .trashicon {
+        background-image: url("https://img.icons8.com/ios/50/000000/trash.png");
+        width: 22px;
+        height: 22px;
+        background-size: cover;
+    }
+
+    .modal-button {
+        position: absolute;
+    }
+</style>
+
+<Modal @ref="modal">
+    <BodyTemplate>
+        @messageContent
+    </BodyTemplate>
+    <FooterTemplate>
+        @if (trashIcon == true)
+        {
+            <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Cancel</Button>
+            <Button Color="ButtonColor.Primary" @onclick="OnSaveHideModalClick">@ActionConfirmName</Button>
+        }
+        else
+        {
+            <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Cancel</Button>
+            <Button Color="ButtonColor.Primary" @onclick="OnSaveHideModalClick">@ActionConfirmName</Button>
+        }
+    </FooterTemplate>
+</Modal>
+
+@if (trashIcon == true)
+{
+    <button @onclick="OnShowModalClick" class="trashicon" style="@Style"> </button>
+}
+else
+{
+    <button @onclick="OnShowModalClick" style="@Style"> @buttonName </button>
+}
+
+@code {
+    [Parameter]
+    public string messageContent { get; set; }
+    [Parameter]
+    public string buttonName { get; set; }
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+    [Parameter]
+    public bool trashIcon { get; set; }
+    [Parameter]
+    public string Style { get; set; }
+    [Parameter]
+    public string ActionConfirmName { get; set; }
+
+    private Modal modal;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    private async Task OnShowModalClick()
+    {
+        await modal.ShowAsync();
+    }
+    private async Task OnHideModalClick()
+    {
+        await modal?.HideAsync();
+    }
+
+    private async Task OnSaveHideModalClick()
+    {
+        await modal?.HideAsync();
+        await OnClickCallback.InvokeAsync();
+    }
+}

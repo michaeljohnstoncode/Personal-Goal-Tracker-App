@@ -1,0 +1,244 @@
+﻿@*
+This page displays details of a single entry completed for a goal.
+*@
+
+@page "/goalcalendar/entrysummary/{goalTitle}/{entryDate}"
+@inject GoalCalendar GoalCalendar
+@inject GoalDatabase goalDatabase
+
+<style>
+    .header {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: #a26eba;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        border-bottom: 2px solid #09A71A;
+    }
+
+    .subheader {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: #a26eba;
+        margin-bottom: 10px;
+    }
+
+    .content-container {
+        margin: 0 auto; 
+    }
+
+
+    .boldlabel {
+        font-weight: bold;
+        color: #a26eba;
+    }
+
+    .summary-list {
+        margin: 10px 0;
+    }
+
+    .summary-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+    .goal-item-content {
+        flex: 1;
+        max-width: 77%; 
+    }
+
+    .goal-item-rating {
+        flex: 0;
+        width: 15%; 
+        text-align: right;
+    }
+
+    .question-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .question-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .question-content {
+        flex-grow: 1;
+    }
+
+    .summary-table {
+        display: table;
+        width: 100%;
+    }
+
+    .summary-row {
+        display: table-row;
+    }
+
+    .summary-cell {
+        display: table-cell;
+        padding: 10px;
+    }
+
+        .summary-cell:nth-child(2) {
+            width: 1px;
+            white-space: nowrap;
+        }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .down {
+        transform: translateY(-2px) rotate(45deg);
+        -webkit-transform: translateY(-2px) rotate(45deg);
+    }
+
+    .action-summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .action-summary-item:last-child {
+            border-bottom: none;
+        }
+
+</style>
+
+
+<div class="header">Summary Page</div>
+<div class="content-container">
+    <h2 class="subheader">Goal: @goalTitle</h2>
+    <p class="subheader" style="font-size: 17px;">Date: @entryDate</p>
+
+    <div class="boldlabel">Question Summary:</div>
+    <div class="summary-list">
+        <!-- Display data for questions answered in entry, and their answer descriptions -->
+        @foreach (var questionSummary in questionEntryData)
+        {
+            <div class="summary-item">
+                <div class="summary-table">
+                    <div class="summary-row">
+                        <div class="summary-cell">@questionSummary.GoalQuestion</div>
+                        <div class="summary-cell">@questionSummary.QuestionRating.Rating<span class="arrow down" @onclick="() => ToggleCollapse(questionSummary)"></span></div>
+                    </div>
+                </div>
+                @if (questionSummary.IsCollapseOpen)
+                {
+                    <div class="card card-body">
+                        <h5 class="card-title text-center" style="text-decoration: underline; color: #a26eba;">Rating Description:</h5>
+                        @questionSummary.QuestionRating.RatingDescription
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+
+    <div class="boldlabel">Action Summary:</div>
+    <div class="summary-list">
+        <!-- Displays data for actions completed in entry -->
+        @foreach (var actionSummary in actionEntryData)
+        {
+            <div class="action-summary-item">
+                <div class="goal-item-content">@actionSummary.Action</div>
+                <div class="goal-item-rating">@actionSummary.ActionCompleted.ActionsCompleted</div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    [Parameter]
+    public string entryDate { get; set; }
+
+    private List<QuestionDaySummary> questionEntryData = new();
+    private List<ActionDaySummary> actionEntryData = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        questionEntryData = GetQuestionData(goalTitle, entryDate);
+        actionEntryData = GetActionData(goalTitle, entryDate);
+    }
+
+    private void ToggleCollapse(QuestionDaySummary question)
+    {
+        question.IsCollapseOpen = !question.IsCollapseOpen;
+    }
+
+    // get data for all questions of goal. includes each question, it's rating, and it's rating description
+    private List<QuestionDaySummary> GetQuestionData(string goalTitle, string entryDate)
+    {
+        Goal goal = goalDatabase.GetItem(goalTitle);
+        List<QuestionDaySummary> questionData = new();
+
+        foreach (var goalQuestion in goal.EntryData.GoalQuestions)
+        {
+            foreach (var questionRating in goalQuestion.ListQuestionRatings)
+            {
+                if (questionRating.QuestionAnsweredDate.Contains($"{entryDate}"))
+                {
+                    QuestionDaySummary entry = new()
+                    {
+                        GoalTitle = goalTitle,
+                        GoalQuestion = goalQuestion.Question,
+                        QuestionRating = questionRating,
+                    };
+                    questionData.Add(entry);
+                }
+            }
+        }
+
+        return questionData;
+    }
+
+    // get data for all actions of goal. includes each action, and it's number for actions completed
+    private List<ActionDaySummary> GetActionData(string goalTitle, string entryDate)
+    {
+        Goal goal = goalDatabase.GetItem(goalTitle);
+        List<ActionDaySummary> actionData = new();
+
+        foreach (var action in goal.EntryData.GoalActions)
+        {
+            foreach (var actionCompleted in action.ListActionsCompleted)
+            {
+                if (actionCompleted.ActionCompletedDate.Contains($"{entryDate}"))
+                {
+                    ActionDaySummary entry = new()
+                        {
+                            GoalTitle = goal.Title,
+                            Action = action.Action,
+                            ActionCompleted = actionCompleted
+                        };
+                    actionData.Add(entry);
+                }
+
+            }
+        }
+
+        return actionData;
+    }
+
+}
+

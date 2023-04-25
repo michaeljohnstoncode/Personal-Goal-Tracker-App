@@ -1,0 +1,137 @@
+﻿@*
+    This page displays input for adding new actions to a new goal. Actions can be added or deleted.
+*@
+
+@page "/newgoal/addactions/{goalTitle}"
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    h3 {
+        text-align: center;
+        color: #86529e;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .custom-action-input {
+        width: 100%;
+        height: 75px;
+        margin-bottom: 10px;
+    }
+
+    .goal-action-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #86529e;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .input-section,
+    .actions-section {
+        width: 100%;
+        background-color: #f3f3f3;
+        padding: 8px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .input-button {
+        background-color: #86529e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+</style>
+
+
+<div class="container">
+    <h3>Add Actions</h3>
+
+    <!-- Add new actions -->
+    <div class="input-section">
+        <label for="actioninput" class="action-label">Add your own actions:</label>
+        <textarea @bind="currentAction" name="actioninput" class="custom-action-input" />
+        <button class="input-button" @onclick="@AddAction">
+            Add
+        </button>
+    </div>
+
+</div>
+    <!-- Displays newly added actions, with the option of deleting them -->
+    <div class="actions-section">
+        @foreach (var action in goalActions)
+        {
+            <div class="goal-action-list">
+                <span>@action.Action</span>
+                <TrashIconButton OnClickCallback="() => RemoveAction(action)">
+                </TrashIconButton>
+            </div>
+        }
+    </div>
+
+    <form @onsubmit="SubmitForm">
+        <SubmitNavigationButton PageToNavigate="@PageToNavigate()" NameOfButton="Complete Goal">
+        </SubmitNavigationButton>
+    </form>
+
+@code {
+
+    [Parameter]
+    public string goalTitle { get; set; }
+    private string currentAction;
+    private List<GoalAction> goalActions = new();
+    private Goal currentGoal = new();
+    private bool actionAdded = false;
+
+    public string PageToNavigate() => $"/goals";
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+    }
+
+    private void AddAction()
+    {
+        GoalAction goalAction;
+        goalAction = new() 
+        { 
+            Action = currentAction,
+            ListActionsCompleted = new(),
+            ActionCreationDate = DateTime.Now.ToString("dddd, MMMM d yyyy"),
+            ActionCompleted = new()
+        };
+        goalActions.Add(goalAction);
+        actionAdded = true;
+        currentAction = string.Empty;
+    }
+
+    private void RemoveAction(GoalAction action) => goalActions.Remove(action);
+
+    private async void SubmitForm()
+    {
+        currentGoal.EntryData.GoalActions = goalActions;
+
+        goalDatabase.SaveItem(currentGoal);
+
+        string pageToNavigate = PageToNavigate();
+        Navigation.NavigateTo(pageToNavigate);
+    }
+}
+
+

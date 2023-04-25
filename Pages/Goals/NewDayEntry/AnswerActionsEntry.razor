@@ -1,0 +1,107 @@
+﻿@*
+    This page will display actions of a goal that the user will answer how many actions were completed.
+*@
+
+@page "/newdayentry/answeractions/{goalTitle}/{entryDate}"
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components.Forms;
+@using System.ComponentModel.DataAnnotations;
+
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .action-section {
+        background-color: #e1e1e1;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .action-label {
+        font-weight: bold;
+        color: #86529e;
+        margin-right: 10px;
+    }
+
+    input[type="text"] {
+        width: 60px;
+        padding: 5px;
+        border: 1px solid #86529e;
+        border-radius: 3px;
+    }
+
+</style>
+
+<body>
+    <EditForm Model="@actions" OnValidSubmit="SubmitForm">
+        <ObjectGraphDataAnnotationsValidator />
+        <div>
+            <!-- List all actions of goal and accept input for each action -->
+            @foreach (var action in actions)
+            {
+                <div class="action-section">
+                    <label for="actionscompleted" class="action-label">@action.Action</label>
+                    <input type="number" step="0.01" @bind="action.ActionCompleted.ActionsCompleted" name="actionscompleted" id="actionscompleted" />
+                    <ValidationMessage For="@(() => action.ActionCompleted.ActionsCompleted)" />
+                </div>
+            }
+        </div>
+        <SubmitButton Id="submit-button" NameOfButton="@nameOfButton"></SubmitButton>
+    </EditForm>
+</body>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    [Parameter]
+    public string entryDate { get; set; }
+
+    private Goal currentGoal = new();
+    private List<GoalAction> actions = new();
+    public string nameOfButton = "Complete Entry";
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+        actions = currentGoal.EntryData.GoalActions;
+        //clear the placeholder values for actionsCompleted input
+        foreach(var action in actions)
+        {
+            action.ActionCompleted.ActionsCompleted = null;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //load javascript function from index.html
+        if (firstRender)
+            await JSRuntime.InvokeVoidAsync("hideButtonOnFocus", new[] { "actionscompleted" }, "submit-button");
+    }
+
+    private async void SubmitForm()
+    {
+        foreach (var action in actions)
+        {
+            action.ActionCompleted.ActionCompletedDate = entryDate;
+            // add actionsCompleted to list (for documentation of time)
+            action.ListActionsCompleted.Add(action.ActionCompleted);
+            // add actionsCompleted to total actions completed for this action
+            action.TotalActionsCompleted += (double)action.ActionCompleted.ActionsCompleted;
+            // add actionsCompleted to all actions completed for this goal
+            currentGoal.OverallActionsCompleted += (double)action.ActionCompleted.ActionsCompleted;
+        }
+
+        currentGoal.TotalEntriesCompleted += 1;
+        currentGoal.EntryData.NewEntryDates.Add(entryDate);
+
+        goalDatabase.SaveItem(currentGoal);
+
+        Navigation.NavigateTo("/goals");
+    }
+}

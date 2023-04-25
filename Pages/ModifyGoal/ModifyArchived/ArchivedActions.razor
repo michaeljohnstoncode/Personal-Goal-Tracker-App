@@ -1,0 +1,96 @@
+﻿@*
+    This page will display any actions of a goal that have been archived for later use. Archived actions may be reinstated or deleted.
+*@
+
+@page "/goals/modifygoal/modifyactions/archivedactions/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+
+<style>
+    .action-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 16px;
+    }
+
+    .action-item {
+        display: flex;
+        align-items: center;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+        .action-item > * {
+            margin-right: 8px;
+        }
+
+        .action-item .modal-confirm-prompt__button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }
+
+</style>
+
+<BackPageButton PageToNavigate=@NavigateBackPage()> </BackPageButton>
+
+<!-- Display the archived actions, and modal buttons for unarchiving or deleting -->
+ <div>  
+    Archived Actions:
+    @foreach (var action in archivedGoalActions)
+    {
+        <ul class="action-list">
+            <li class="action-item">
+                <span>@action.Action</span>
+                        
+                <ModalConfirmPrompt buttonName="Unarchive" messageContent="Unarchiving this action will make it answerable again. Would you like to continue?" OnClickCallback="() => UnarchiveAction(action)" >
+                </ModalConfirmPrompt>      
+
+                <ModalConfirmPrompt OnClickCallback="() => DeleteArchivedAction(action)" trashIcon="true" messageContent="Are you sure you want to delete this action? This will be deleted permanently">
+                </ModalConfirmPrompt>
+            </li>   
+        </ul>
+    }  
+ </div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    private Goal currentGoal;
+    private List<GoalAction> archivedGoalActions = new();
+    private List<GoalAction> goalActions = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+        archivedGoalActions = currentGoal.EntryData.ArchivedGoalActions;
+        goalActions = currentGoal.EntryData.GoalActions;
+    }
+
+    private void DeleteArchivedAction(GoalAction action)
+    {
+        archivedGoalActions.Remove(action);
+        currentGoal.EntryData.ArchivedGoalActions = archivedGoalActions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    private void UnarchiveAction(GoalAction action)
+    {
+        DeleteArchivedAction(action);
+        goalActions.Add(action);
+        currentGoal.EntryData.GoalActions = goalActions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    public string NavigateBackPage() => $"/goals/modifygoal/modifyactions/{goalTitle}";
+}
+

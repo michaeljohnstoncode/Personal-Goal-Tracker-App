@@ -1,0 +1,41 @@
+﻿@*
+    Button component to navigate to a specified page.
+    Input a string to PageToNavigate parameter to specify the page to navigate to.
+    Button position defaults to fixed position. Input style to change button css. Position of button must be defined (ex: "bottom: 10px; right: 10px;")
+*@
+
+@inject NavigationManager Navigation
+
+<style>
+    
+.button {
+  background-color: #09A71A;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+}
+
+</style>
+
+<div style="text-align: center;">
+    <button id="newentry" @onclick="NavigateToPage" class="button" style="@Style"> @NameOfButton </button>
+</div>
+
+@code {
+    [Parameter]
+    public string PageToNavigate { get; set; } 
+    [Parameter]
+    public string NameOfButton { get; set; }
+    [Parameter]
+    public string Style { get; set; }
+
+    public void NavigateToPage()
+    {
+        Navigation.NavigateTo(PageToNavigate);
+    }
+}

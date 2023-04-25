@@ -1,0 +1,23 @@
+﻿@*
+    Button component to display an archive button
+*@
+
+@inject NavigationManager Navigation
+
+<style>
+    .archivefolder {
+        background-image: url("https://img.icons8.com/ios/50/000000/archive-folder.png");
+        width: 22px;
+        height: 22px;
+        background-size: cover;
+        
+    }
+</style>
+
+<button class="archivebutton" @onclick="OnClickCallback"></button>
+
+@code
+{
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+}

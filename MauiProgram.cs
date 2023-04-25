@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.WebView.Maui;
+﻿using BlazorBootstrap;
 using TrainingProgressionApp.Data;
-using TrainingProgressionApp.Services;
+using TrainingProgressionApp.Pages.GoalCalendar;
+
 
 namespace TrainingProgressionApp;
 
@@ -21,9 +22,10 @@ public static class MauiProgram
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 		
-		builder.Services.AddSingleton<SampleEntryData>();
         builder.Services.AddSingleton<Goal>();
 		builder.Services.AddSingleton<GoalDatabase>();
+		builder.Services.AddSingleton<GoalCalendar>();
+		builder.Services.AddBlazorBootstrap();
 
 		return builder.Build();
 	}

@@ -1,0 +1,32 @@
+﻿@media (max-width: 440px) {
+    .calendar {
+        font-size: 12px;
+    }
+
+    .calendar-header button {
+        font-size: 16px;
+        padding: 4px 10px;
+    }
+
+    .calendar-header span {
+        font-size: 20px;
+    }
+
+    .calendar th {
+        padding: 5px;
+    }
+
+    .calendar td {
+        height: 40px;
+    }
+
+    .entry-button {
+        padding: 4px 8px;
+        margin: 3px;
+        font-size: 12px;
+    }
+
+    .no-entry-message {
+        font-size: 14px;
+    }
+}

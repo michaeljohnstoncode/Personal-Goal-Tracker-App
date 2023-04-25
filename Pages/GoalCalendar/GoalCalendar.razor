@@ -1,0 +1,299 @@
+﻿@*
+This page displays an interactive calendar that the user can use to track their day by day entries in detail.
+Clicking on a day will display any entries made that day for any goal. Then clicking on any one of those entries will take the user to the SingleEntrySummary page, which displays the details of that specific entry.
+*@
+
+@page "/goalcalendar"
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+
+<style>
+    .calendar {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+        .calendar-header button {
+            background-color: #38761d;
+            color: white;
+            border: none;
+            font-size: 20px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        .calendar-header span {
+            font-size: 24px;
+        }
+
+    .calendar table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .calendar th {
+        background-color: #38761d;
+        color: white;
+        padding: 10px;
+        font-weight: normal;
+        text-transform: uppercase;
+    }
+
+    .calendar td {
+        height: 60px;
+        vertical-align: middle;
+        border: 1px solid lightgray;
+    }
+
+    .calendar .today {
+        background-color: lightblue;
+    }
+
+    .calendar .goal-entry {
+        background-color: rgba(9, 151, 9, 0.25);
+    }
+
+    .entry-container {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+    }
+
+    .entry-button {
+        background-color: rgba(9, 151, 9, 0.6);
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        margin: 5px;
+        font-size: 14px;
+        border-radius: 5px;
+        text-align: left;
+        cursor: pointer;
+        display: inline-block;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-entry-message {
+        font-size: 16px;
+        font-weight: bold;
+        color: #a26eba;
+        text-align: center;
+        width: 100%;
+    }
+
+</style>
+
+<div class="calendar">
+    <div class="calendar-header">
+        <button class="prev-month" @onclick="PreviousMonth">&lt;</button>
+        <span class="current-month">@currentMonth   @currentYear</span>
+        <button class="next-month" @onclick="NextMonth">&gt;</button>
+    </div>
+    <table class="calendar-days">
+        <thead>
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- These forloops will display each day of the month for the calendar, and highlight any day that has completed entries on that date. -->
+            @for (int i = 0; i < NumberOfWeeks; i++)
+            {
+                <tr>
+                    @for (int j = 0; j < 7; j++)
+                    {
+                        DateTime firstDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+                        int day = (i * 7 + j) - (int)firstDayOfMonth.DayOfWeek + 1;
+                        if (day > 0 && day <= DateTime.DaysInMonth(currentDate.Year, currentDate.Month))
+                        {
+                            string tdClass = HasGoalEntryForDay(day) ? "goal-entry" : "";
+                            if (currentDate.Year == DateTime.Now.Year && currentDate.Month == DateTime.Now.Month && day == DateTime.Now.Day)
+                            {
+                                tdClass += " today";
+                            }
+                            <td class="@tdClass" @onclick="@(() => ShowEntriesForDay(day))">@day</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="entry-background">
+    <div class="entry-container">
+        <!-- Whenever a day of the month is clicked, this checks if there are any goal entries for that day.    
+        If there is a goal entry for that day, then they are displayed and can be clicked on to be brought to a SingleEntrySummary page, which displays details of that specific entry. -->
+        @if (HasGoalEntryForDay(Convert.ToInt32(selectedDay)))
+        {
+            <div class="no-entry-message" style="text-align:left;">
+               Entries completed:
+            </div>
+            @foreach (var entry in goalDayEntryDates)
+            {
+                if(entry.GoalEntryDates.Count > 0)
+                {
+                    foreach (var date in entry.GoalEntryDates)
+                    {
+                        <button class="entry-button" @onclick="() => NavigateSelectedEntry(entry.GoalTitle, date)">
+                            <span>@entry.GoalTitle</span>
+                            <br />
+                            <span>@date</span>
+                        </button>
+                    }
+                }
+            }
+        }
+        else
+        {
+            <div class="no-entry-message" style="text-align:left;">
+                No entries completed @($"{currentMonth} {selectedDay}, {currentYear}")
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    public DateTime currentDate = DateTime.Now;
+    public string currentYear = DateTime.Now.Year.ToString();
+    public string currentMonth = DateTime.Now.ToString("MMMM");
+    public int NumberOfWeeks = 6;
+    public bool isModalOpen;
+    public string selectedDay = DateTime.Now.Day.ToString();
+    public List<Goal> goals = new();
+    public List<CalendarDateInfo> goalMonthEntryDates = new();
+    public List<CalendarDateInfo> goalDayEntryDates = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        goals = goalDatabase.GetItemsAsync();
+        goalMonthEntryDates = CurrentMonthData(currentMonth);
+    }
+
+    public void NavigateSelectedEntry(string goalTitle, string entryDate)
+    {
+        Navigation.NavigateTo($"/goalcalendar/entrysummary/{goalTitle}/{entryDate}");
+    }
+
+    //bool to check if there are any entries for the day. provides yes or no answer if the day should be highlighted on calendar
+    private bool HasGoalEntryForDay(int day)
+    {
+        string dayString = $"{currentMonth} {day}";
+        foreach (var entry in goalMonthEntryDates)
+        {
+            if (entry.GoalEntryDates.Any(x => x.Contains(dayString)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //returns a list of all the goals and their titles and entry dates for the selected day
+    private List<CalendarDateInfo> SelectedDayData(string selectedDay)
+    {
+        List<CalendarDateInfo> modalInfo = new();
+
+        foreach(var entry in goalMonthEntryDates)
+        {
+            List<string> entriesOfDay = entry.GoalEntryDates.Where(x => x.Contains($"{currentMonth} {selectedDay} ")).ToList();
+            if(entriesOfDay.Count > 0 || entriesOfDay != null)
+            {
+                CalendarDateInfo dayModalinfo = new()
+                    {
+                        GoalTitle = entry.GoalTitle,
+                        GoalEntryDates = entriesOfDay,
+                    };
+                modalInfo.Add(dayModalinfo);
+            }
+        }
+
+        return modalInfo;
+    }
+
+    //returns a list of all the goals and their titles and entry dates for the current selected month
+    private List<CalendarDateInfo> CurrentMonthData(string currentMonth)
+    {
+        List<CalendarDateInfo> modalInfo = new();
+
+        foreach(var goal in goals)
+        {
+            List<string> entriesOfMonth = goal.EntryData.NewEntryDates.Where(x => x.Contains(currentMonth)).ToList();
+            entriesOfMonth = goal.EntryData.NewEntryDates.Where(x => x.Contains(currentYear)).ToList();
+            if (entriesOfMonth.Count > 0 || entriesOfMonth != null)
+            {
+                CalendarDateInfo monthModalInfo = new()
+                {
+                    GoalTitle = goal.Title,
+                    GoalEntryDates = entriesOfMonth,
+                };
+                modalInfo.Add(monthModalInfo);
+            }
+        }
+
+        return modalInfo;
+    }
+
+    //populates field variable List<CalendarDateInfo> goalDayEntryDates; on click of the desired selected day in calendar. This provides data for displaying entries for that day.
+    private void ShowEntriesForDay(int day)
+    {
+        selectedDay = day.ToString();
+        goalDayEntryDates = SelectedDayData(selectedDay);
+    }
+
+    private void CloseModal()
+    {
+        isModalOpen = false;
+    }
+
+    //calculate day of month (1 - 31)
+    private string GetDay(int week, int day)
+    {
+        DateTime firstDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+        int dayOfMonth = (week * 7) + day - (int)firstDayOfMonth.DayOfWeek + 1;
+        if (dayOfMonth > 0 && dayOfMonth <= DateTime.DaysInMonth(currentDate.Year, currentDate.Month))
+        {
+            return dayOfMonth.ToString();
+        }
+        return string.Empty;
+    }
+
+    private void PreviousMonth()
+    {
+        currentDate = currentDate.AddMonths(-1);
+        currentYear = currentDate.Year.ToString();
+        currentMonth = currentDate.ToString("MMMM");
+        goalMonthEntryDates = CurrentMonthData(currentMonth);
+    }
+
+    private void NextMonth()
+    {
+        currentDate = currentDate.AddMonths(1);
+        currentYear = currentDate.Year.ToString();
+        currentMonth = currentDate.ToString("MMMM");
+        goalMonthEntryDates = CurrentMonthData(currentMonth);
+    }
+}

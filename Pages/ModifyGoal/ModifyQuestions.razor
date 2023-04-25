@@ -1,0 +1,141 @@
+﻿@*
+    This page displays the questions of a goal, with the ability to modify them. Questions may be added, deleted, or archived.
+*@
+
+@page "/goals/modifygoal/modifyquestions/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+
+<style>
+    .question-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 16px;
+    }
+
+    .question-item {
+        display: flex;
+        align-items: center;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+        .question-item > * {
+            margin-right: 8px;
+        }
+
+    .question-input {
+        margin-bottom: 24px;
+    }
+
+        .question-input textarea {
+            width: 100%;
+            height: 100px;
+            resize: none;
+        }
+
+        .question-input button,
+        .question-item .modal-confirm-prompt__button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }
+
+</style>
+
+<BackPageButton PageToNavigate=@NavigateBackPage()> </BackPageButton>
+
+<!-- Add questions -->
+<div class="modify-questions-container" style="display:block">
+    <div class="question-input">
+        <label for="questioninput">Add Question:</label>
+        <textarea @bind="currentQuestion" name="questioninput"></textarea>
+        <button @onclick="@AddQuestion">Add</button>
+    </div>
+
+    <!-- Display questions and includes the option to archive them -->
+    <div>
+        @foreach (var question in goalQuestions)
+        {
+            <ul class="question-list">
+                <li class="question-item">
+                    <span>@question.Question</span>
+                    <ModalConfirmPrompt buttonName="Archive" messageContent="Are you sure you want to archive this?" OnClickCallback="() => ArchiveQuestion(question)" ActionConfirmName="Archive"></ModalConfirmPrompt>
+                </li>
+            </ul>
+        }
+    </div>
+
+    <NavigateButton NameOfButton="Archive Questions ->" PageToNavigate="@NavigateArchivedQuestions()" Style="bottom: 10px; right: 10px;"></NavigateButton>
+</div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    private Goal currentGoal;
+    private List<GoalQuestion> goalQuestions = new();
+    private List<GoalQuestion> archivedGoalQuestions = new();
+    private string currentQuestion;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+
+        if(currentGoal.EntryData.GoalQuestions == null)
+            goalQuestions = new();
+        else
+            goalQuestions = currentGoal.EntryData.GoalQuestions;
+      
+        if(currentGoal.EntryData.ArchivedGoalQuestions == null)
+            archivedGoalQuestions = new();
+        else
+            archivedGoalQuestions = currentGoal.EntryData.ArchivedGoalQuestions;
+    }
+
+    private void AddQuestion()
+    {
+        GoalQuestion goalEntryQuestion;
+        goalEntryQuestion = new()
+            {
+                Question = currentQuestion,
+                QuestionRating = new(),
+                ListQuestionRatings = new(),
+                QuestionCreationDate = DateTime.Now.ToString("dddd , MMMM d yyyy"),
+            };     
+        goalQuestions.Add(goalEntryQuestion);
+        currentGoal.EntryData.GoalQuestions = goalQuestions;
+        goalDatabase.SaveItem(currentGoal);
+        //clear text input field
+        currentQuestion = string.Empty;
+    }
+
+
+    private void ArchiveQuestion(GoalQuestion question)
+    {
+        RemoveQuestion(question);
+        archivedGoalQuestions.Add(question);
+        currentGoal.EntryData.ArchivedGoalQuestions = archivedGoalQuestions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    private void RemoveQuestion(GoalQuestion question)
+    {
+        goalQuestions.Remove(question);
+        currentGoal.EntryData.GoalQuestions = goalQuestions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+    
+    public string NavigateBackPage() => $"/goals/modifygoal/{goalTitle}";
+
+    public string NavigateArchivedQuestions() => $"/goals/modifygoal/modifyquestions/archivedquestions/{goalTitle}";
+}

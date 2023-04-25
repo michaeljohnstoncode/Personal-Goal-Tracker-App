@@ -1,0 +1,202 @@
+﻿@*
+    This page displays a detailed overview of a goal. It provides details on the goal title, description, minutes spent on goal, entries completed, and questions/actions.
+    This page is where you can navigate to modifying the goal or to enter a new entry for the goal.
+*@
+
+@page "/goalentry/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+@inject NavigationManager Navigation
+
+<style>
+    .container {
+        padding-bottom: 100px;
+        padding-top: 20px;
+    }
+
+    .content {
+        overflow-y: auto;
+    }
+
+    .divScroll {
+        max-height: 130px;
+        border: 2px solid #09A71A;
+        border-radius: 5px;
+        overflow-y: scroll;
+        padding: 10px;
+    }
+
+    .boldlabel {
+        font-weight: bold;
+        color: #a26eba;
+    }
+
+    .modifyButton, .statButton {
+        border: none;
+        color: white;
+        padding: 12px 12px;
+        text-align: center;
+        position: fixed;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 11px;
+        cursor: pointer;
+        opacity: 1;
+        border-radius: 5px;
+    }
+
+    .modifyButton {
+        background-color: #09A71A;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .statButton {
+        background-color: #09A71A;
+        bottom: 10px;
+        left: 97px;
+    }
+
+    h2, p {
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    p {
+        text-align: left;
+    }
+
+    .deleteButton {
+        border: none;
+        color: white;
+        padding: 12px 12px;
+        text-align: center;
+        position: fixed;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        cursor: pointer;
+        opacity: 1;
+        border-radius: 7px;
+        top: 62px;
+        right: 7px;
+    }
+    
+    .navigation-container {
+    position: sticky;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+    
+</style>
+
+<div class="container">
+    <div class="content">
+    <div class="navigation-container">
+    <!-- Delete goal button -->
+    <ModalConfirmPrompt
+    buttonName="Delete Goal"
+    messageContent="Are you sure you want to delete this goal?"
+    trashIcon="false"
+    Style=" border: none;
+            color: black;
+            background-color: red;
+            padding: 9px 9px;
+            text-align: center;
+            position: fixed;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 1;
+            border-radius: 7px;
+            top: 62px;
+            right: 7px;"
+    ActionConfirmName="Delete"
+    OnClickCallback="DeleteGoal">
+    </ModalConfirmPrompt>
+    </div>
+
+    <!-- Details of a goal -->
+    <h2>Goal: @currentGoal.Title</h2>
+    <p><span class="boldlabel">Description:</span> @currentGoal.GoalDescription</p>
+    <p><span class="boldlabel">Date of Creation:</span> @currentGoal.GoalCreationDate</p>
+    <p><span class="boldlabel">Minutes spent on goal:</span> @currentGoal.TotalTimeSpent</p>
+    <p><span class="boldlabel">Total entries completed:</span> @currentGoal.TotalEntriesCompleted</p>
+
+    <div class="boldlabel">Action questions:</div>
+    <div class="divScroll">
+        @if (currentGoal.EntryData.GoalActions != null)
+        {
+            @foreach (GoalAction action in currentGoal.EntryData.GoalActions)
+            {
+                <text>&bull; </text> @action.Action
+                <br />
+            }
+        }
+    </div>
+    <br />
+    <div class="boldlabel">Goal Questions:</div>
+    <div class="divScroll">
+        @if (currentGoal.EntryData.GoalQuestions != null)
+        {
+            @foreach (GoalQuestion goalQuestion in currentGoal.EntryData.GoalQuestions)
+            {
+                <text>&bull; </text> @goalQuestion.Question
+                <br />
+            }
+        }
+    </div>
+    </div>
+</div>
+<div class="navigation-container">
+<NavigateButton PageToNavigate="@NavigateNewEntryPage()" NameOfButton="Enter New Day's Entry" Style="bottom: 10px; right: 10px;">
+</NavigateButton>
+
+<NavigateButton PageToNavigate="@NavigateModifyGoalPage()" NameOfButton="Modify Goal" Style="bottom: 10px; left: 10px;">
+</NavigateButton>
+</div>
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+
+    private Goal currentGoal;
+    public string entryDate = DateTime.Now.ToString("dddd, MMMM d yyyy HH:mm:ss");
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+    }
+    
+    public string NavigateModifyGoalPage() => $"/goals/modifygoal/{goalTitle}";
+    
+    //returns which page to navigate to when entering a new entry. if the goal may not have time spent, or questions, or actions, it will skip over those pages.
+    public string NavigateNewEntryPage()
+    {
+        if(currentGoal.AddTimeSpent == true)
+        {
+            return $"/newdayentry/timespent/{goalTitle}/{entryDate}";
+        }
+        else if (currentGoal.EntryData.GoalQuestions.Count > 0)
+        {
+            return $"/newdayentry/answerquestions/{goalTitle}/{entryDate}";
+        }
+        else if (currentGoal.EntryData.GoalActions.Count > 0)
+        {
+            return $"/newdayentry/answeractions/{goalTitle}/{entryDate}";
+        }
+        else
+        {
+            return "/goals";
+        }
+    }
+
+    private void DeleteGoal()
+    {
+        goalDatabase.DeleteGoal(currentGoal);
+        Navigation.NavigateTo("/goals");
+    }
+}

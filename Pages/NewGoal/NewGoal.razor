@@ -1,0 +1,139 @@
+﻿@*
+    This page displays the start of creating a new goal. It will ask for the title and description of the goal, and if they want to track time spent on goal.
+*@
+
+@page "/newgoal"
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime;
+<style>
+h2 {
+    text-align: center;
+    color: #86529e;
+}
+
+.new-goal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    padding-top: 50px;
+    background-color: #f5f5f5;
+    height: 100vh;
+}
+
+.new-goal-section {
+    background-color: #e1e1e1;
+    padding: 12px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+}
+
+.new-goal-label {
+    font-weight: bold;
+    color: #86529e;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="checkbox"] {
+    margin-bottom: 20px;
+}
+
+
+.goal-title {
+    width: 100%;
+    height: 40px;
+    resize: vertical;
+}
+
+.goal-description {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    margin-bottom: 10px
+}
+
+.submit-button {
+   background-color: #4caf50;
+   color: #ffffff;
+   border: none;
+   padding: 10px 20px; 
+   font-size: 18px;
+   font-weight: bold;
+   border-radius: 5px;
+   cursor: pointer;
+   position: fixed; 
+   bottom: 10px;
+   right: 10px;
+}
+
+input[type="text"], input[type="checkbox"] {
+    margin-bottom: 10px;
+}
+</style>
+
+<h2>Add New Goal</h2>
+
+<!-- Displays input for new goal title, description, and time spent bool -->
+<div class="new-goal-container">
+    <div class="new-goal-section">
+        <EditForm Model="newGoal" OnValidSubmit="SubmitForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <p>
+                <label for="goaltitle" class="new-goal-label">Give your goal a title</label>
+                <textarea @bind="newGoal.Title" name="goaltitle" id="goaltitle" class="goal-title"></textarea>
+            </p>
+
+            <p>
+                <label for="goaldescription" class="new-goal-label">Give your goal a description</label>
+                <textarea @bind="newGoal.GoalDescription" name="goaldescription" id="goaldescription" class="goal-description"></textarea>
+            </p>
+
+            <p>
+                <label for="time-spent-option" class="new-goal-label">Record time spent</label>
+                <input type="checkbox" @bind="addTimeSpent" id="time-spent-option" />
+            </p>
+
+            <button id="submit-button" class="submit-button"> Add Goal Questions </button>
+        </EditForm>
+    </div>
+</div>
+
+@code 
+{
+    private bool addTimeSpent { get; set; } = true;
+    private Goal newGoal = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //load javascript function from index.html
+        if (firstRender)
+            await JSRuntime.InvokeVoidAsync("hideButtonOnFocus", new[] { "goaltitle", "goaldescription" }, "submit-button");
+    }
+
+    private string PageToNavigate() => $"/newgoal/addquestions/{newGoal.Title}";
+
+    private async void SubmitForm()
+    {
+        // create new instance of goal
+        newGoal.AddTimeSpent = addTimeSpent;
+        newGoal.GoalCreationDate = DateTime.Now.ToString("dddd, MMMM d yyyy");
+        newGoal.EntryData = new();
+        newGoal.EntryData.GoalQuestions = new();
+        newGoal.EntryData.GoalActions = new();
+        newGoal.EntryData.ArchivedGoalQuestions = new();
+        newGoal.EntryData.ArchivedGoalActions = new();
+        newGoal.EntryData.NewEntryDates = new();
+        newGoal.EntryData.AllTimeSpentMinutes = new();
+
+        goalDatabase.SaveItem(newGoal);
+
+        string pageToNavigate = PageToNavigate();
+        Navigation.NavigateTo(pageToNavigate);
+    }
+}

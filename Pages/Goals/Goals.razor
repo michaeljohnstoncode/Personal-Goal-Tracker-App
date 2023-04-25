@@ -1,0 +1,128 @@
+﻿@*
+    This page displays a list of all goals. Clicking on any one of these goals will bring you to it's goal entry overview page.
+    You can access creating a new goal from this page.
+*@
+
+@page "/goals"
+@using Microsoft.Maui.Controls
+@inject NavigationManager Navigation
+@inject GoalDatabase goalDatabase;
+
+<style>
+    .goals-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #a26eba;
+        padding: 1rem;
+        height: 100%;
+    }
+
+    h1 {
+        color: #ffffff;
+        margin-bottom: 2rem;
+    }
+
+    .goals-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .goal-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #54ba54;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-size: 1.1rem;
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .goal-btn:hover {
+        transform: translateY(-4px);
+    }
+
+    .goal-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .goal-description {
+        font-size: 0.9rem;
+    }
+
+    .add-goal-btn-container {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 10;
+    }
+
+    .add-goal-btn {
+        background-color: #4fa74f; 
+        color: #4f2761;
+        border: 2px solid #784391;
+        border-radius: 30px;
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s;
+        white-space: nowrap;
+    }
+
+    .add-goal-btn:hover {
+        transform: translateY(-4px);
+    }
+</style>
+
+<div class="goals-container">
+    <h1>Current Goals</h1>
+
+    <!-- Display goals list, and if there are no goals, it will add another create new goal button -->
+    <div class="goals-list">
+        @if(goals.Count == 0)
+        {
+            <button @onclick="(() => Navigation.NavigateTo(NavigateNewGoalPage()))" class="goal-btn">
+             Add New Goal
+            </button>
+        }
+        else
+        {
+            foreach (var goal in goals)
+            {
+                <button @onclick="(() => NavigateToGoal(goal.Title))" class="goal-btn">
+                    <div class="goal-title">@goal.Title</div>
+                    <div class="goal-description">@goal.GoalDescription</div>
+                </button>
+            }
+        }
+
+    </div>
+</div>
+
+<NavigateButton NameOfButton="Add New Goal" PageToNavigate="@NavigateNewGoalPage()" Style="bottom: 10px; right: 10px;">
+</NavigateButton>
+
+@code {
+    private List<Goal> goals = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        goals = goalDatabase.GetItemsAsync();
+    }
+
+    public string NavigateNewGoalPage() => "newgoal";
+
+    private void NavigateToGoal(string goalTitle) => Navigation.NavigateTo($"goalentry/{goalTitle}");
+}

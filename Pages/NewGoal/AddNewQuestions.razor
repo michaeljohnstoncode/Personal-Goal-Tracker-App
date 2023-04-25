@@ -1,0 +1,258 @@
+﻿@*
+    This page displays input for adding new questions to a new goal. Questions can be added or deleted.
+    There are examples questions to help guide the user, and they can check any example questions if they want to include them.
+*@
+
+@page "/newgoal/addquestions/{goalTitle}"
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime;
+
+<style>
+    h3 {
+        text-align: center;
+        color: #86529e;
+    }
+
+    .add-questions-section {
+        flex-direction: column;
+        align-items: center;
+        background-color: #e1e1e1;
+        padding: 8px;
+        border-radius: 5px;
+        text-align: center;
+        width: 100%;
+        max-width: 900px;
+        height: 120vh;
+    }
+
+    .question-label {
+        font-weight: bold;
+        color: #86529e;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .input-field {
+        margin-bottom: 10px;
+    }
+
+    .input-button {
+        background-color: #86529e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    .leftalign {
+        float: left;
+        word-wrap: break-word;
+        height: auto;
+        max-width: 90%;
+        overflow-x: hidden;
+    }
+
+    .add-questions-section {
+        width: 100%;
+        max-width: 1000px;
+    }
+
+    .example-questions-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .example-question-section {
+        display: flex;
+        justify-content: space-between;
+        align-items:flex-start;
+        margin-bottom: 10px;
+    }
+
+.custom-question-input {
+    width: 100%;
+    height: 65px;
+    resize: vertical;
+    margin-bottom: 3px;
+}
+
+.goal-question-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #86529e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+</style>
+
+<h3>Add Questions</h3>
+
+<div class="add-questions-section">
+        <!-- Display example questions that the user can check if they want to add them -->
+        <div class="example-questions">
+            <p class="example-questions-title">Example Questions:</p>
+            @foreach (var exampleQuestion in exampleGoalQuestions)
+            {
+                string questionId = exampleQuestion.Key;
+                string question = exampleQuestion.Question;
+
+                <div class="example-question-section">
+                    <label for="@questionId" class="question-label">@question</label>
+                    <input type="checkbox" id="@questionId" name="goalquestion" class="input-field" @onchange="eventArgs => { QuestionIsChecked(questionId, eventArgs.Value); } ">
+                </div>
+            }
+        </div>
+
+        <!-- Display input for adding new questions -->
+        <p>
+            <label for="questioninput" class="question-label">Example questions don't meet your needs? Add your own:</label>
+            <textarea @bind="currentQuestion" name="questioninput" id="questioninput" class="custom-question-input"></textarea>
+        </p>
+
+        <button class="input-button" @onclick="@AddQuestion">
+            Add
+        </button>
+
+        <!-- Display newly added questions and allow the user to delete them -->
+        <div>
+            @foreach (var question in goalQuestions)
+            {
+                <div class="goal-question-list">
+                    <span>@question.Question</span>
+                    <TrashIconButton OnClickCallback="() => RemoveQuestion(question)">
+                    </TrashIconButton>
+                </div>
+            }
+        </div>
+
+        <form @onsubmit="SubmitForm">
+            <SubmitNavigationButton PageToNavigate="@PageToNavigate()" NameOfButton="Add Actions" Id="submit-button">
+            </SubmitNavigationButton>
+        </form>
+</div>
+
+@code {
+
+    [Parameter]
+    public string goalTitle { get; set; }
+
+    private string currentQuestion;
+    private List<string> questionCheckedList = new();
+    private List<GoalQuestion> goalQuestions = new();
+    private Goal currentGoal = new();
+    private bool questionAdded = false;
+    private List<ExampleGoalQuestions> exampleGoalQuestions = new()
+    {
+         new ExampleGoalQuestions()  {Question = "Do you think you are improving?", Key = "question1" },
+         new ExampleGoalQuestions()  {Question = "Are you enjoying yourself?", Key = "question2" },
+         new ExampleGoalQuestions()  {Question = "Do you think you could do better?", Key = "question3" },
+         new ExampleGoalQuestions()  {Question = "Do you think you are spending your time how you want to?", Key = "question4" },
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //load javascript function from index.html
+        if (firstRender)
+            await JSRuntime.InvokeVoidAsync("hideButtonOnFocus", new[] { "questioninput" }, "submit-button");
+    }
+
+    public string PageToNavigate() => $"/newgoal/addactions/{goalTitle}";
+
+    private void RemoveQuestion(GoalQuestion question) => goalQuestions.Remove(question);
+
+    private void AddQuestion()
+    {
+        GoalQuestion goalEntryQuestion = new() 
+        { 
+            Question = currentQuestion, 
+            QuestionRating = new(),
+            ListQuestionRatings = new(),
+            QuestionCreationDate = DateTime.Now.ToString("dddd, MMMM d yyyy"),
+        };
+        goalQuestions.Add(goalEntryQuestion);
+        questionAdded = true;
+
+        //clear text input field
+        currentQuestion = string.Empty;
+    }
+
+    private void QuestionIsChecked(string questionId, object isChecked)
+    {
+        // if checkbox is checked and the question is not in the CheckedList, then add it
+        if ((bool)isChecked == true)
+        {
+            if (!questionCheckedList.Contains(questionId))
+            {
+                questionCheckedList.Add(questionId);
+                Console.WriteLine($"Question added {questionId}");
+            }
+        }
+        // if checkbox is unchecked, and it contains the question, then remove it
+        else
+        {
+            if (questionCheckedList.Contains(questionId))
+            {
+                questionCheckedList.Remove(questionId);
+                Console.WriteLine($"Question removed {questionId}");
+            }
+        }
+    }
+
+    private List<GoalQuestion> AddExampleQuestions()
+    {
+        List<GoalQuestion> exampleQuestions = new();
+        //add example questions if checked
+        foreach (var question in exampleGoalQuestions)
+        {
+            if (questionCheckedList.Contains(question.Key))
+            {
+                GoalQuestion goalEntryQuestion = new() 
+                {
+                    Question = question.Question,
+                    QuestionRating = new(),
+                    ListQuestionRatings = new(),
+                    QuestionCreationDate = DateTime.Now.ToString("dddd, MMMM d yyyy"),
+                };
+
+                exampleQuestions.Add(goalEntryQuestion);
+            }
+        }
+        return exampleQuestions;
+    }
+
+    private async void SubmitForm()
+    {
+        //add example questions to goal question list
+        List<GoalQuestion> exampleQuestions = AddExampleQuestions();
+        foreach(var question in exampleQuestions)
+        {
+            goalQuestions.Add(question);
+        }
+        
+        //test if questions are correctly added
+        foreach (var question in goalQuestions)
+        {
+            Console.WriteLine($"value: {question.Question}");
+        }
+
+        currentGoal.EntryData.GoalQuestions = goalQuestions;
+
+        goalDatabase.SaveItem(currentGoal);
+
+        Navigation.NavigateTo($"/newgoal/addactions/{goalTitle}");
+    }
+
+}
+

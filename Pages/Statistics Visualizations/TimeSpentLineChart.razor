@@ -1,0 +1,256 @@
+﻿@*
+    This page displays statistics about time spent on a goal. It will display a line chart of the time spent on goal over time. The user may choose the time frame to display the chart for.
+*@
+
+@inject GoalDatabase goalDatabase
+@inject NavigationManager Navigation
+
+@using ChartJs.Blazor
+@using ChartJs.Blazor.Common;
+@using ChartJs.Blazor.Common.Axes;
+@using ChartJs.Blazor.Common.Axes.Ticks;
+@using ChartJs.Blazor.Common.Enums;
+@using ChartJs.Blazor.PieChart;
+@using ChartJs.Blazor.Util;
+@using System.Globalization;
+
+
+<style>
+    .scroll{
+     width: 100%;
+     padding-bottom: 15px;
+    }
+</style>
+
+<!-- When switching between different goals in the statistics page, ensure correct goal and data is set -->
+@if (goalTitle != selectedGoal.Title)
+{
+    SetCurrentGoal();
+    _lineConfig.Options.Title.Text = "Time Spent On " + selectedGoal.Title;
+    ChangeChart();
+}
+
+<div class="scroll">
+    <Chart Config="_lineConfig"></Chart>
+</div>
+
+<!-- Set the time frame of statistics -->
+<div style="padding-bottom: 25px;">
+@foreach (var timeFrame in timeFrames)
+{
+     <button @onclick="() => SetTimeFrame(timeFrame.Key)">@timeFrame.Key</button>
+}
+</div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    private Goal selectedGoal;
+    private LineConfig _lineConfig = new();
+    private string selectedTimeFrame = "1M";
+    private Dictionary<string, int> timeFrames = new()
+    {
+        { "1M", 1 },
+        { "4M", 4 },
+        { "1Y", 12 },
+        { "ALL", -1 },
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetCurrentGoal();
+        //create placeholder chart
+        CreateChart();
+        //populate placeholder chart with data
+        ChangeChart();
+    }
+
+    private void SetCurrentGoal()
+    {
+        selectedGoal = goalDatabase.GetItem(goalTitle);
+    }
+
+    private void SetTimeFrame(string timeFrame)
+    {
+        selectedTimeFrame = timeFrame;
+        ChangeChart();
+    }
+
+    //Calling this function will update the chart with the correct data, and set the labels.
+    private void ChangeChart()
+    {
+        //clear data and labels in the chart to be replaced by new requested data and labels
+        _lineConfig.Data.Datasets.Clear();
+        _lineConfig.Data.XLabels.Clear();
+
+        List<TimeSpent> timeData = GetChartData();
+        DateTime currentDate = DateTime.Now;
+        List<string> labels = new();
+        LineDataset<double?> timeSpentData = CreateLineDataset();
+
+        foreach (var time in timeData)
+        {
+            DateTime labelDate;
+            labelDate = DateTime.ParseExact(time.TimeSpentDate, "dddd, MMMM d yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            string label = labelDate.ToShortDateString();
+            labels.Add(label);
+            timeSpentData.Add((double)time.TimeSpentMinutes);
+        }
+
+        _lineConfig.Data.Datasets.Add(timeSpentData);
+        
+        foreach (var label in labels)
+        {
+            if (!_lineConfig.Data.XLabels.Contains(label))
+            {
+                _lineConfig.Data.XLabels.Add(label);
+            }
+        }
+    }
+
+    //This function will setup each data point that is graphed on the line chart
+    private LineDataset<double?> CreateLineDataset()
+    {
+        return new LineDataset<double?>
+        {
+            Label = "Minutes spent",
+            BorderWidth = 3,
+            BorderColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(40, 255, 40)),
+            PointHoverRadius = 4,
+            HoverBackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(200, 20, 20, 20)),
+        };
+    }
+
+    //This gets the selected timeframe for the data, and calls for data using the desired timeframe
+    private List<TimeSpent> GetChartData()
+    {
+        int monthCount = timeFrames[selectedTimeFrame];
+
+        //this calculates the time frame when selecting the ALL time frame
+        if (monthCount == -1)
+        {
+            monthCount = GoalAgeAsMonths();
+            // if 0, that means the goal was created this month
+            if (monthCount == 0)
+                monthCount = 1;
+        }
+
+        return GetTimeDataByMonth(monthCount);
+    }
+
+    //This function sets up the chart itself, so it can be populated with data later
+    private void CreateChart()
+    {
+        _lineConfig = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                AspectRatio = 1,
+                Responsive = true,
+                
+                Scales = new ChartJs.Blazor.LineChart.Scales
+                {
+                    XAxes = new List<CartesianAxis>
+                    {
+                        new CategoryAxis
+                        {
+                            Ticks = new CategoryTicks
+                            {
+                                AutoSkipPadding = 50,
+                                Minor = new MinorTicks
+                                {
+                                    FontColor = "#800080",
+                                },
+
+                                Major = new MajorTicks
+                                {
+                                    Enabled = true,
+                                    FontColor = "#00ff00",
+                                }
+                            }
+                        }
+                    },
+                },
+
+                Tooltips = new Tooltips
+                {
+                    BackgroundColor = "white",
+                    BodyFontColor = "#000",
+                    TitleFontColor = "#F123",
+                    BodySpacing = 10,
+                    TitleSpacing = 10,
+                    TitleMarginBottom = 5,
+                    DisplayColors = true,
+                },
+
+                Legend = new Legend
+                {
+                    Display = false,
+                },
+
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Time Spent On " + selectedGoal.Title,
+                }
+            }
+        };
+    }
+
+    //Get the age of goal in months
+    private int GoalAgeAsMonths()
+    {
+        DateTime currentDate = DateTime.Now;
+        string year = currentDate.ToString("yyyy");
+        string month = currentDate.ToString("MMMM");
+        string goalCreationDate = selectedGoal.GoalCreationDate;
+        int monthCount = 0;
+        bool stop = false;
+        while (stop == false)
+        {
+            if (goalCreationDate.Contains(year) && goalCreationDate.Contains(month))
+            {
+                stop = true;
+            }
+            else
+            {
+                currentDate = currentDate.AddMonths(-1);
+                year = currentDate.ToString("yyyy");
+                month = currentDate.ToString("MMMM");
+                monthCount++;
+            }
+        }
+
+        return monthCount;
+    }
+
+    // gets time spent data for each number of months
+    private List<TimeSpent> GetTimeDataByMonth(int monthCount)
+    {
+        DateTime date = DateTime.Now;
+        List<TimeSpent> chartTimeData = new();
+
+        //for each month, get the time spent data for that month, then combine all the data into one list
+        for (int i = 0; i <= monthCount; i++)
+        {
+            date = date.AddMonths(-i);
+            string currentMonth = date.ToString("MMMM");
+            string currentYear = date.ToString("yyyy");
+            
+            foreach (var time in selectedGoal.EntryData.AllTimeSpentMinutes)
+            {
+                if (time.TimeSpentDate.Contains($"{currentMonth}") && time.TimeSpentDate.Contains($"{currentYear}"))
+                {
+                    TimeSpent timeSpent = new()
+                    {
+                        TimeSpentMinutes = time.TimeSpentMinutes,
+                        TimeSpentDate = time.TimeSpentDate,
+                    };
+                    chartTimeData.Add(timeSpent);
+                }
+            } 
+        }
+
+        return chartTimeData;
+    }
+}

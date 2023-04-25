@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingProgressionApp.Data;
-
 namespace TrainingProgressionApp
 {
     // Stores EmbeddedMemories to disk and retrieves them.
@@ -17,7 +16,7 @@ namespace TrainingProgressionApp
         {
             Path = template;
         }
-
+    
         // Check if file already exists at path.
         // If it does, overwrite it with the list of goal.
         // If it doesn't, create it and write list of goal to it.
@@ -55,8 +54,12 @@ namespace TrainingProgressionApp
     }
     public class GoalDatabase
     {
-        public DiskEmbedder Disk = new("goals.json");
+        public DiskEmbedder Disk = new(FileSystem.Current.AppDataDirectory + "goals.json");
         private List<Goal> _goalsInMemory = new();
+        private Goal _tempGoal = new();
+        private void StoreGoals(List<Goal> goals) => _goalsInMemory = goals;
+
+        public Goal GetItem(string id) => _goalsInMemory.Where(i => i.Title == id).FirstOrDefault();
 
         public List<Goal> GetItemsAsync()
         {
@@ -66,28 +69,41 @@ namespace TrainingProgressionApp
             return goals;
         }
 
-        private void StoreGoals(List<Goal> goals) => _goalsInMemory = goals;
-
-        public Goal GetItem(string id) => _goalsInMemory.Where(i => i.Title == id).FirstOrDefault();
-
         public void SaveItem(Goal item)
         {
             // Check if item exists in memory first
-            var goal = _goalsInMemory.FirstOrDefault(i => i.Title == item.Title);
-            if (goal.Title == string.Empty) // default goal detected - so it doesn't exist yet
+            Console.WriteLine($"Directory: {FileSystem.Current.AppDataDirectory}/goals.json");
+            var goalTitleList = _goalsInMemory.Select(i => i.Title).ToList();
+            var goalTitle = goalTitleList.FirstOrDefault(i => i == item.Title);
+            Console.WriteLine(goalTitle);
+            if (goalTitle == item.Title)
             {
+                // Remove and update the goal in memory
+                var goal = _goalsInMemory.FirstOrDefault(i => i.Title == goalTitle);
+                DeleteGoal(goal);
                 _goalsInMemory.Add(item);
             }
             else
             {
-                // Remove and update the goal in memory
-                DeleteItem(goal);
+                // no matching goal, so this goal does not exist yet
                 _goalsInMemory.Add(item);
             }
             Disk.WriteMemories(_goalsInMemory);
         }
 
         // Delete item from goals in memory
-        public bool DeleteItem(Goal item) => _goalsInMemory.Remove(item);
+        public void DeleteGoal(Goal item)
+        {
+            _goalsInMemory.Remove(item);
+            Disk.WriteMemories(_goalsInMemory);
+        }
+
+        // Delete all goals in memory
+        public void DeleteAllGoals()
+        {
+            _goalsInMemory.Clear();
+            Disk.WriteMemories(_goalsInMemory);
+        }
     }
+
 }

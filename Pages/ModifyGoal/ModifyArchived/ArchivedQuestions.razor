@@ -1,0 +1,94 @@
+﻿@*
+    This page will display any questions of a goal that have been archived for later use. Archived questions may be reinstated or deleted.
+*@
+
+@page "/goals/modifygoal/modifyquestions/archivedquestions/{goalTitle}"
+@inject GoalDatabase goalDatabase;
+
+<style>
+    .question-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 16px;
+    }
+
+    .question-item {
+        display: flex;
+        align-items: center;
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+        .question-item > * {
+            margin-right: 8px;
+        }
+
+        .question-item .modal-confirm-prompt__button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }
+
+</style>
+
+<BackPageButton PageToNavigate=@NavigateBackPage()> </BackPageButton>
+
+<!-- Display the archived questions, and modal buttons for unarchiving or deleting -->
+ <div>  
+    Archived Questions:
+      @foreach(var question in archivedGoalQuestions)
+      {
+          <ul class="question-list">
+              <li class="question-item">
+                  <span>@question.Question</span>
+                  <ModalConfirmPrompt buttonName="Unarchive" messageContent="Unarchiving this question will make it answerable again. Would you like to continue?" OnClickCallback="() => UnarchiveQuestion(question)" ActionConfirmName="Unarchive">
+                  </ModalConfirmPrompt>
+
+                  <ModalConfirmPrompt OnClickCallback="() => DeleteArchivedQuestion(question)" trashIcon="true" messageContent="Are you sure you want to delete this question? This will be deleted permanently" ActionConfirmName="Delete">
+                  </ModalConfirmPrompt>
+              </li>
+          </ul>
+      }  
+ </div>
+
+@code {
+    [Parameter]
+    public string goalTitle { get; set; }
+    private Goal currentGoal;
+    private List<GoalQuestion> archivedGoalQuestions = new();
+    private List<GoalQuestion> goalQuestions = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentGoal = goalDatabase.GetItem(goalTitle);
+        archivedGoalQuestions = currentGoal.EntryData.ArchivedGoalQuestions;
+        goalQuestions = currentGoal.EntryData.GoalQuestions;
+    }
+
+    private void DeleteArchivedQuestion(GoalQuestion question)
+    {
+        archivedGoalQuestions.Remove(question);
+        currentGoal.EntryData.ArchivedGoalQuestions = archivedGoalQuestions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+
+    private void UnarchiveQuestion(GoalQuestion question)
+    {
+        DeleteArchivedQuestion(question);
+        goalQuestions.Add(question);
+        currentGoal.EntryData.GoalQuestions = goalQuestions;
+        goalDatabase.SaveItem(currentGoal);
+    }
+    
+    public string NavigateBackPage() => $"/goals/modifygoal/modifyquestions/{goalTitle}";
+}
