@@ -1,72 +1,82 @@
 ﻿@page "/sample"
 @inject GoalDatabase goalDatabase
 
-<button @onclick="PopulateMany"> populate goal with question and action samples </button>
+<style>
+    
+.button {
+      background-color: #09A71A;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      position: fixed;
 
-<br />
-<br />
+}
 
-<button @onclick="PopulateSampleWithTime"> populate goal with time samples </button>
 
-<br />
-<br />
-
-<button @onclick="PopulateNewEntryDates"> populate goal with NewEntryDates samples. used for displaying on calendar </button>
+</style>
 
 @code {
-    List<Goal> goals = new();
-    Goal goal;
-    List<string> dates = new()
+    public Goal sampleGoal;
+    private List<string> dates = new()
     {
-        "Monday, July 11 2022",
-        "Wednesday, July 20 2022",
-        "Tuesday, September 6 2022",
-        "Wednesday, September 7 2022",
-        "Saturday, September 10 2022",
-        "Thursday, September 15 2022",
-        "Friday, September 16 2022",
-        "Saturday, September 17 2022",
-        "Wednesday, November 2 2022",
-        "Thursday, November 3 2022",
-        "Saturday, December 10 2022",
-        "Sunday, December 18 2022",
-        "Monday, December 19 2022",
-        "Wednesday, December 21 2022",
-        "Saturday, January 7 2023",
-        "Tuesday, January 10 2023",
-        "Thursday, January 19 2023",
-        "Friday, January 20 2023",
-        "Saturday, January 21 2023",
-        "Sunday, January 22 2023",
-        "Monday, January 23 2023",
-        "Wednesday, February 1 2023",
-        "Thursday, February 2 2023",
-        "Friday, February 3 2023",
-        "Saturday, February 4 2023",
-        "Sunday, February 5 2023",
-        "Monday, February 6 2023",
-        "Tuesday, February 7 2023",
-        "Wednesday, February 8 2023",
-        "Thursday, February 9 2023",
-        "Friday, February 10 2023",
-        "Saturday, February 11 2023",
-        "Sunday, February 12 2023",
-        "Monday, February 13 2023",
-        "Tuesday, February 14 2023",
-        "Wednesday, February 15 2023",
-        "Thursday, February 16 2023",
-        "Friday, February 17 2023",
-        "Saturday, February 18 2023",
-        "Sunday, February 19 2023",
-        "Monday, February 20 2023",
-        "Tuesday, February 21 2023",
-        "Wednesday, February 22 2023",
-        "Thursday, February 23 2023",
-        "Friday, February 24 2023",
-        "Saturday, February 25 2023",
-        "Sunday, February 26 2023",
-        "Monday, February 27 2023",
-        "Tuesday, February 28 2023",
+        "Monday, July 11 2022 14:34:03",
+        "Wednesday, July 20 2022 14:34:03",
+        "Tuesday, September 6 2022 14:34:03",
+        "Wednesday, September 7 2022 14:34:03",
+        "Saturday, September 10 2022 14:34:03",
+        "Thursday, September 15 2022 14:34:03",
+        "Friday, September 16 2022 14:34:03",
+        "Saturday, September 17 2022 14:34:03",
+        "Wednesday, November 2 2022 14:34:03",
+        "Thursday, November 3 2022 14:34:03",
+        "Saturday, December 10 2022 14:34:03",
+        "Sunday, December 18 2022 14:34:03",
+        "Monday, December 19 2022 14:34:03",
+        "Wednesday, December 21 2022 14:34:03",
+        "Saturday, January 7 2023 14:34:03",
+        "Tuesday, January 10 2023 14:34:03",
+        "Thursday, January 19 2023 14:34:03",
+        "Friday, January 20 2023 14:34:03",
+        "Saturday, January 21 2023 14:34:03",
+        "Sunday, January 22 2023 14:34:03",
+        "Monday, January 23 2023 14:34:03",
+        "Wednesday, February 1 2023 14:34:03",
+        "Thursday, February 2 2023 14:34:03",
+        "Friday, February 3 2023 14:34:03",
+        "Saturday, February 4 2023 14:34:03",
+        "Sunday, February 5 2023 14:34:03",
+        "Monday, February 6 2023 14:34:03",
+        "Tuesday, February 7 2023 14:34:03",
+        "Wednesday, February 8 2023 14:34:03",
+        "Thursday, February 9 2023 14:34:03",
+        "Friday, February 10 2023 14:34:03",
+        "Saturday, February 11 2023 14:34:03",
+        "Sunday, February 12 2023 14:34:03",
+        "Monday, February 13 2023 14:34:03",
+        "Tuesday, February 14 2023 14:34:03",
+        "Wednesday, February 15 2023 14:34:03",
+        "Thursday, February 16 2023 14:34:03",
+        "Friday, February 17 2023 14:34:03",
+        "Saturday, February 18 2023 14:34:03",
+        "Sunday, February 19 2023 14:34:03",
+        "Monday, February 20 2023 14:34:03",
+        "Tuesday, February 21 2023 14:34:03",
+        "Wednesday, February 22 2023 14:34:03",
+        "Thursday, February 23 2023 14:34:03",
+        "Friday, February 24 2023 14:34:03",
+        "Saturday, February 25 2023 14:34:03",
+        "Sunday, February 26 2023 14:34:03",
+        "Monday, February 27 2023 14:34:03",
+        "Tuesday, February 28 2023 14:34:03",
+        "Tuesday, March 14 2023 17:14:44",
+        "Thursday, March 23 2023 13:34:01",
+        "Thursday, April 6 2023 17:44:05",
+        "Friday, April 7 2023 12:22:22",
+        "Saturday, April 8 2023 15:33:03",
 
     };
 
@@ -75,88 +85,172 @@
 
     protected override async Task OnInitializedAsync()
     {
-        goals = goalDatabase.GetItemsAsync();
-        goal = goalDatabase.GetItem(goalTitle);
+
     }
 
-    //delete specific date for fix
-    public void Delete()
+    public Goal AddSampleGoal()
     {
-        foreach(var question in goal.EntryData.GoalQuestions)
+        //   DateTime.Now.ToString("dddd, MMMM d yyyy");
+        sampleGoal = new()
         {
-            foreach(var questionrating in question.ListQuestionRatings.ToList())
-            {
-                if(questionrating.QuestionAnsweredDate == "Tuesday , January 16 2023")
-                {
-                    question.ListQuestionRatings.Remove(questionrating);
-                    goalDatabase.SaveItem(goal);
-                }
-            }
+            Title = "Sample: Guitar",
+            GoalDescription = "This is a sample goal. For this sample goal, the topic of Guitar will be used to represent a goal to track over time.",
+            AddTimeSpent = true,
+            GoalCreationDate = "Sunday, July 10 2022",
+            TotalEntriesCompleted = new(),
+            OverallActionsCompleted = new(),
+            TotalTimeSpent = new(),
+            EntryData = new(),
+        };
+
+        sampleGoal.EntryData.ArchivedGoalActions = new();
+        sampleGoal.EntryData.ArchivedGoalQuestions = new();
+
+        // add all time spent list
+        sampleGoal.EntryData.AllTimeSpentMinutes = AddTimeSpentForEntry();
+        // add goal actions
+        sampleGoal.EntryData.GoalActions = AddGoalActions();
+        // add goal questions
+        sampleGoal.EntryData.GoalQuestions = AddGoalQuestions();
+        // add NewEntryDates
+        sampleGoal.EntryData.NewEntryDates = dates;
+
+        sampleGoal.TotalEntriesCompleted = dates.Count;
+
+        double overallActionsCompleted = 0;
+        foreach (var action in sampleGoal.EntryData.GoalActions)
+        {
+            overallActionsCompleted += action.TotalActionsCompleted;
         }
+        sampleGoal.OverallActionsCompleted = overallActionsCompleted;
+
+        double totalTimeSpent = 0;
+        foreach(var timeSpent in sampleGoal.EntryData.AllTimeSpentMinutes)
+        {
+            totalTimeSpent += (double)timeSpent.TimeSpentMinutes;
+        }
+        sampleGoal.TotalTimeSpent = totalTimeSpent;
+
+        return sampleGoal;
     }
 
-    public void PopulateSampleWithTime()
+    public List<GoalQuestion> AddGoalQuestions()
     {
-        Random rnd = new Random();
-        List<TimeSpent> timeSpentList = new();
+        List<GoalQuestion> goalQuestions = new();
 
-        foreach(var date in dates)
+        List<string> questionList = new()
         {
-            TimeSpent timeSpent = new()
+            "Did you enjoy playing guitar today?",
+            "How well did you play today compared to last time?",
+            "Do you feel improvement from last time?",
+            "Did you learn something new today?",
+        };
+
+        foreach(var question in questionList)
+        {
+            GoalQuestion goalQuestion = new()
             {
-                TimeSpentMinutes = rnd.Next(1, 200),
-                TimeSpentDate = date,
+                Question = question,
+                QuestionCreationDate = "Sunday, July 10 2022",
+                ListQuestionRatings = AddQuestionData(),
+                QuestionRating = new(),
             };
-            timeSpentList.Add(timeSpent);
+
+            goalQuestions.Add(goalQuestion);
         }
 
-        goal.EntryData.AllTimeSpentMinutes = timeSpentList;
-
-        goalDatabase.SaveItem(goal);
+        return goalQuestions;
     }
 
-    public void PopulateNewEntryDates()
+    public List<QuestionRating> AddQuestionData()
     {
-        goal.EntryData.NewEntryDates = dates;
-        goalDatabase.SaveItem(goal);
-    }
-
-    public void PopulateMany()
-    {
+        List<QuestionRating> questionRatings = new();
         foreach (var date in dates)
         {
-            PopulateSample(date);
-        }
-    }
-
-    public void PopulateSample(string dateSample)
-    {
-        foreach(var question in goal.EntryData.GoalQuestions)
-        {
             Random rnd = new();
-
             QuestionRating questionRating = new()
                 {
-                    QuestionAnsweredDate = dateSample,
+                    QuestionAnsweredDate = date,
                     Rating = rnd.Next(1, 10),
-            };
-
-            question.ListQuestionRatings.Add(questionRating);
-        }
-
-        foreach(var action in goal.EntryData.GoalActions)
-        {
-            Random rnd = new();
-
-            ActionCompleted actionCompleted = new()
-                {
-                    ActionCompletedDate = dateSample,
-                    ActionsCompleted = rnd.Next(1, 50),
+                    RatingDescription = "This is an example description used for the rating. This description will explain why you gave the question the rating you did. This is an optional input.",
                 };
 
-            action.ListActionsCompleted.Add(actionCompleted);
+            questionRatings.Add(questionRating);
+        }
+        return questionRatings;
+    }
+
+    public List<GoalAction> AddGoalActions()
+    {
+        List<GoalAction> goalActions = new();
+
+        List<string> actionList = new()
+        {
+            "How many songs did you practice today?",
+            "Have you learned or tried any new songs today?",
+            "New chords learned today",
+            "# of times song was perfectly played",
+        };
+
+        foreach (var action in actionList)
+        {
+            List<ActionCompleted> listActionsCompleted = AddActionData();
+            
+            double? totalActionsCompleted = 0;
+            foreach(var actionsCompleted in listActionsCompleted)
+            {
+                totalActionsCompleted += actionsCompleted.ActionsCompleted;
+            }
+            
+            GoalAction goalAction = new()
+            {
+                Action = action,
+                ActionCreationDate = "Sunday, July 10 2022",
+                ListActionsCompleted = listActionsCompleted,
+                TotalActionsCompleted = (double)totalActionsCompleted,
+                ActionCompleted = new(),
+            };
+
+            goalActions.Add(goalAction);
         }
 
-        goalDatabase.SaveItem(goal);
+        return goalActions;
     }
+
+    public List<ActionCompleted> AddActionData()
+    {
+        List<ActionCompleted> actionCompletedList = new();
+        foreach (var date in dates)
+        {
+            Random rnd = new();
+            ActionCompleted actionCompleted = new()
+            {
+                ActionsCompleted = rnd.Next(1, 40),
+                ActionCompletedDate = date,
+            };
+
+            actionCompletedList.Add(actionCompleted);
+        }
+        
+        return actionCompletedList;
+    }
+
+    public List<TimeSpent> AddTimeSpentForEntry()
+    {
+        List<TimeSpent> AllTimeSpentMinutes = new();
+        foreach (var date in dates)
+        {
+            Random rnd = new();
+            TimeSpent timeSpent = new()
+                {
+                    TimeSpentDate = date,
+                    TimeSpentMinutes = rnd.Next(20, 180),
+                };
+
+            AllTimeSpentMinutes.Add(timeSpent);
+        }
+
+        return AllTimeSpentMinutes;
+    }
+
 }

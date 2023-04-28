@@ -84,6 +84,20 @@
     .add-goal-btn:hover {
         transform: translateY(-4px);
     }
+
+    .sample-button {
+        background-color: #09A71A;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+    }
 </style>
 
 <div class="goals-container">
@@ -96,6 +110,7 @@
             <button @onclick="(() => Navigation.NavigateTo(NavigateNewGoalPage()))" class="goal-btn">
              Add New Goal
             </button>
+
         }
         else
         {
@@ -111,17 +126,32 @@
     </div>
 </div>
 
+<!-- 
+   <button class="sample-button" @onclick="CreateSampleGoal"> Add Sample Goal</button> 
+-->
+
 <NavigateButton NameOfButton="Add New Goal" PageToNavigate="@NavigateNewGoalPage()" Style="bottom: 10px; right: 10px;">
 </NavigateButton>
 
 @code {
     private List<Goal> goals = new();
-    
+    public Goal sampleGoal = new();
+
     protected override async Task OnInitializedAsync()
     {
         goals = goalDatabase.GetItemsAsync();
     }
-
+    
+    /* 
+     *  This function is used to provide a sample goal for testing
+    public void CreateSampleGoal()
+    {
+        AddSampleDataForTesting.AddSampleData addSampleData = new();
+        sampleGoal = addSampleData.AddSampleGoal();
+        goalDatabase.SaveItem(sampleGoal);
+    }
+    */
+   
     public string NavigateNewGoalPage() => "newgoal";
 
     private void NavigateToGoal(string goalTitle) => Navigation.NavigateTo($"goalentry/{goalTitle}");
