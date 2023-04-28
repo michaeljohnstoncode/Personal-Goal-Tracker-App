@@ -9,8 +9,8 @@
 
 <style>
     .container {
-        padding-bottom: 100px;
-        padding-top: 20px;
+        padding-bottom: 120px;
+        padding-top: 10px;
     }
 
     .content {
@@ -82,7 +82,6 @@
     }
     
     .navigation-container {
-    position: sticky;
     bottom: 10px;
     display: flex;
     justify-content: space-between;
@@ -127,7 +126,7 @@
     <p><span class="boldlabel">Minutes spent on goal:</span> @currentGoal.TotalTimeSpent</p>
     <p><span class="boldlabel">Total entries completed:</span> @currentGoal.TotalEntriesCompleted</p>
 
-    <div class="boldlabel">Action questions:</div>
+    <div class="boldlabel">Actions: </div>
     <div class="divScroll">
         @if (currentGoal.EntryData.GoalActions != null)
         {
@@ -139,7 +138,7 @@
         }
     </div>
     <br />
-    <div class="boldlabel">Goal Questions:</div>
+    <div class="boldlabel">Goal Questions: </div>
     <div class="divScroll">
         @if (currentGoal.EntryData.GoalQuestions != null)
         {

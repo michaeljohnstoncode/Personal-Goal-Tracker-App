@@ -51,24 +51,24 @@ namespace TrainingProgressionApp.Data
 		public string Action { get; set; }
         [ValidateComplexType]
         public ActionCompleted ActionCompleted { get; set; }
-	//	public List<ActionsCompletedAndMeasurement> ListActionsCompletedAndMeasurement { get; set; }
 		public List<ActionCompleted> ListActionsCompleted { get; set; }
         public double TotalActionsCompleted { get; set; }
         public string ActionCreationDate { get; set; }
-	
+
+        //	public List<ActionsCompletedAndMeasurement> ListActionsCompletedAndMeasurement { get; set; }
     }
 
-/* **	I may want to add this in the future. This class would allow there to be multiple kinds of actions completed for each action. It allows an action to be answered more dynamically.
-		For example, if I were a weight lifter, I want to document how many times I did weighted squats today. Some days I do more weight, some days I do less.
-		Action: Weighted squats completed today - actionsCompleted: 225 pounds 5 repetitions 3 sets ... or 195 pounds 8 repetitions 4 sets. This is like saying I did 4 sets of 195 pounds for 8 repetitions per set
-		So this allows the action itself to be more ambiguous, and the actionsCompleted answer to be more descriptive of what specifically occured that day.
- 
-	public class ActionsCompletedAndMeasurement
-	{
-		public string actionMeasurement { get; set; }
-		public List<ActionCompleted> ListActionsCompleted { get; set; }
-	}
-*/
+    /* **	I may want to add this in the future. This class would allow there to be multiple kinds of actions completed for each action. It allows an action to be answered more dynamically.
+            For example, if I were a weight lifter, I want to document how many times I did weighted squats today. Some days I do more weight, some days I do less.
+            Action: Weighted squats completed today - actionsCompleted: 225 pounds 5 repetitions 3 sets ... or 195 pounds 8 repetitions 4 sets. This is like saying I did 4 sets of 195 pounds for 8 repetitions per set
+            So this allows the action itself to be more ambiguous, and the actionsCompleted answer to be more descriptive of what specifically occured that day.
+
+        public class ActionsCompletedAndMeasurement
+        {
+            public string actionMeasurement { get; set; }
+            public List<ActionCompleted> ListActionsCompleted { get; set; }
+        }
+    */
 
     //ActionCompleted class represents each time an action was completed and the date it was inputted.
     public class ActionCompleted

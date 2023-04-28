@@ -113,11 +113,9 @@
             }
         }
 
-        //as of right now, this does not need to be a foreach since there is only 1 selected action. but in the future if there are multiple actions to display, this will need to be a foreach
+        LineDataset<double?> ratings = CreateLineDataset(selectedAction);
         foreach (var action in chartData)
         {
-            LineDataset<double?> ratings = CreateLineDataset(action.Action);
-
             foreach (var actionCompleted in action.ListActionsCompleted)
             {
                 DateTime labelDate;
@@ -126,9 +124,8 @@
                 labels.Add(label);
                 ratings.Add(actionCompleted.ActionsCompleted);
             }
-
-            _lineConfig.Data.Datasets.Add(ratings);
         }
+        _lineConfig.Data.Datasets.Add(ratings);
 
         foreach (var label in labels)
         {
@@ -148,6 +145,7 @@
             BorderWidth = 3,
             BorderColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(40, 255, 40)),
             PointHoverRadius = 4,
+            PointRadius = 5,
             HoverBackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(200, 20, 20, 20)),
         };
     }
@@ -213,7 +211,7 @@
                     TitleMarginBottom = 5,
                     DisplayColors = true,
                 },
-                
+
                 Legend = new Legend
                 {
                         Display = false,
@@ -261,13 +259,11 @@
         DateTime date = DateTime.Now;
         List<GoalAction> chartActionData = new();
 
+        string currentMonth = date.ToString("MMMM");
+        string currentYear = date.ToString("yyyy");
         //for each month, get the data for that month, then combine all requested month's data together into a list
         for (int i = 0; i <= monthCount; i++)
         {
-            date = date.AddMonths(-i);
-            string currentMonth = date.ToString("MMMM");
-            string currentYear = date.ToString("yyyy");
-
             foreach (var action in selectedGoal.EntryData.GoalActions)
             {
                 List<ActionCompleted> goalActions = new();
@@ -281,6 +277,7 @@
                             ActionsCompleted = actionCompleted.ActionsCompleted,
                             ActionCompletedDate = actionCompleted.ActionCompletedDate,
                         };
+                        
                         goalActions.Add(newActionCompleted);
                     }
                 }
@@ -290,9 +287,13 @@
                         Action = action.Action,
                         ListActionsCompleted = goalActions,
                 };
-
+                actionData.ListActionsCompleted.Reverse();
                 chartActionData.Add(actionData);
             }
+            
+            date = date.AddMonths(-1);
+            currentMonth = date.ToString("MMMM");
+            currentYear = date.ToString("yyyy");
         }
 
         //remove empty data if there is no entry for in a month

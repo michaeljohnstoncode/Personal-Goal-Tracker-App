@@ -103,6 +103,7 @@
 
         List<GoalQuestion> questionData = GetChartData();
         List<GoalQuestion> chartData = new();
+        GoalQuestion selectedGoalQuestion = new();
         DateTime currentDate = DateTime.Now;
         List<string> labels = new();
 
@@ -114,12 +115,10 @@
                 chartData.Add(goalQuestion);
             }
         }
-
-        //as of right now, this does not need to be a foreach since there is only 1 selected question. but in the future if there are multiple questions to display, this will need to be a foreach
+        
+        LineDataset<int?> ratings = CreateLineDataset(selectedQuestion);
         foreach (var goalQuestion in chartData)
         {
-            LineDataset<int?> ratings = CreateLineDataset(goalQuestion.Question);
-
             foreach (var rating in goalQuestion.ListQuestionRatings)
             {
                 DateTime labelDate;
@@ -128,16 +127,14 @@
                 labels.Add(label);
                 ratings.Add((int)rating.Rating);
             }
-
-            _lineConfig.Data.Datasets.Add(ratings);
         }
+        _lineConfig.Data.Datasets.Add(ratings);
 
         foreach (var label in labels)
         {
             if (!_lineConfig.Data.XLabels.Contains(label))
             {
                 _lineConfig.Data.XLabels.Add(label);
-
             }
         }
     }
@@ -151,6 +148,7 @@
             BorderWidth = 3,
             BorderColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(40, 255, 40)),
             PointHoverRadius = 4,
+            PointRadius = 5,
             HoverBackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(200, 20, 20, 20)),
         };
     }
@@ -221,7 +219,7 @@
                 {
                     Display = false,
                 },
-                
+
                 Title = new OptionsTitle
                 {
                     Display = true,
@@ -264,13 +262,11 @@
         DateTime date = DateTime.Now;
         List<GoalQuestion> chartQuestionData = new();
 
+        string currentMonth = date.ToString("MMMM");
+        string currentYear = date.ToString("yyyy");
         //for each month, get the data for that month, then combine all requested month's data together into a list
         for(int i = 0; i <= monthCount; i++)
         {
-            date = date.AddMonths(-i);
-            string currentMonth = date.ToString("MMMM");
-            string currentYear = date.ToString("yyyy");
-
             foreach(var question in selectedGoal.EntryData.GoalQuestions)
             {
                 List<QuestionRating> questionRatings = new();
@@ -294,8 +290,13 @@
                     Question = question.Question,
                     ListQuestionRatings = questionRatings,
                 };
+                questionData.ListQuestionRatings.Reverse();
                 chartQuestionData.Add(questionData);
             }
+            
+            date = date.AddMonths(-1);
+            currentMonth = date.ToString("MMMM");
+            currentYear = date.ToString("yyyy");
         }
         
         //remove empty data if there is no entry for in a month

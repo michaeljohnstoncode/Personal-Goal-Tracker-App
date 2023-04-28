@@ -35,7 +35,7 @@
 </div>
 
 <!-- Set the time frame of statistics -->
-<div style="padding-bottom: 25px;">
+<div style="padding-bottom: 35px;">
 @foreach (var timeFrame in timeFrames)
 {
      <button @onclick="() => SetTimeFrame(timeFrame.Key)">@timeFrame.Key</button>
@@ -55,14 +55,19 @@
         { "1Y", 12 },
         { "ALL", -1 },
     };
+    List<TimeSpent> reverseTimeSpentList = new();
 
     protected override async Task OnInitializedAsync()
     {
         SetCurrentGoal();
         //create placeholder chart
         CreateChart();
+        //reverse the time spent list once so data is charted correctly
+        reverseTimeSpentList = selectedGoal.EntryData.AllTimeSpentMinutes;
+        reverseTimeSpentList.Reverse();
         //populate placeholder chart with data
         ChangeChart();
+
     }
 
     private void SetCurrentGoal()
@@ -98,7 +103,7 @@
         }
 
         _lineConfig.Data.Datasets.Add(timeSpentData);
-        
+
         foreach (var label in labels)
         {
             if (!_lineConfig.Data.XLabels.Contains(label))
@@ -117,6 +122,7 @@
             BorderWidth = 3,
             BorderColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(40, 255, 40)),
             PointHoverRadius = 4,
+            PointRadius = 5,
             HoverBackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(200, 20, 20, 20)),
         };
     }
@@ -147,7 +153,7 @@
             {
                 AspectRatio = 1,
                 Responsive = true,
-                
+
                 Scales = new ChartJs.Blazor.LineChart.Scales
                 {
                     XAxes = new List<CartesianAxis>
@@ -229,15 +235,13 @@
     {
         DateTime date = DateTime.Now;
         List<TimeSpent> chartTimeData = new();
-
+        
+        string currentMonth = date.ToString("MMMM");
+        string currentYear = date.ToString("yyyy");
         //for each month, get the time spent data for that month, then combine all the data into one list
         for (int i = 0; i <= monthCount; i++)
         {
-            date = date.AddMonths(-i);
-            string currentMonth = date.ToString("MMMM");
-            string currentYear = date.ToString("yyyy");
-            
-            foreach (var time in selectedGoal.EntryData.AllTimeSpentMinutes)
+            foreach (var time in reverseTimeSpentList)
             {
                 if (time.TimeSpentDate.Contains($"{currentMonth}") && time.TimeSpentDate.Contains($"{currentYear}"))
                 {
@@ -246,11 +250,14 @@
                         TimeSpentMinutes = time.TimeSpentMinutes,
                         TimeSpentDate = time.TimeSpentDate,
                     };
+
                     chartTimeData.Add(timeSpent);
                 }
-            } 
+            }
+            date = date.AddMonths(-1);
+            currentMonth = date.ToString("MMMM");
+            currentYear = date.ToString("yyyy");
         }
-
         return chartTimeData;
     }
 }

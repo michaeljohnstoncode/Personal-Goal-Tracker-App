@@ -6,6 +6,11 @@
 @inject GoalDatabase goalDatabase;
 
 <style>
+    .questions {
+        padding-bottom: 30px;
+        overflow-y: scroll;
+    }
+
     .question-list {
         list-style: none;
         padding: 0;
@@ -63,7 +68,7 @@
     </div>
 
     <!-- Display questions and includes the option to archive them -->
-    <div>
+    <div class="questions">
         @foreach (var question in goalQuestions)
         {
             <ul class="question-list">

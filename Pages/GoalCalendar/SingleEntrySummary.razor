@@ -100,7 +100,7 @@ This page displays details of a single entry completed for a goal.
         border: solid black;
         border-width: 0 3px 3px 0;
         display: inline-block;
-        padding: 3px;
+        padding: 8px;
         cursor: pointer;
         margin-left: 10px;
     }
@@ -138,7 +138,10 @@ This page displays details of a single entry completed for a goal.
                 <div class="summary-table">
                     <div class="summary-row">
                         <div class="summary-cell">@questionSummary.GoalQuestion</div>
-                        <div class="summary-cell">@questionSummary.QuestionRating.Rating<span class="arrow down" @onclick="() => ToggleCollapse(questionSummary)"></span></div>
+                        <div class="summary-cell">
+                            @questionSummary.QuestionRating.Rating
+                            <span class="arrow down" @onclick="() => ToggleCollapse(questionSummary)"></span>
+                        </div>
                     </div>
                 </div>
                 @if (questionSummary.IsCollapseOpen)

@@ -51,11 +51,11 @@
         <ul class="action-list">
             <li class="action-item">
                 <span>@action.Action</span>
-                        
-                <ModalConfirmPrompt buttonName="Unarchive" messageContent="Unarchiving this action will make it answerable again. Would you like to continue?" OnClickCallback="() => UnarchiveAction(action)" >
-                </ModalConfirmPrompt>      
 
-                <ModalConfirmPrompt OnClickCallback="() => DeleteArchivedAction(action)" trashIcon="true" messageContent="Are you sure you want to delete this action? This will be deleted permanently">
+                <ModalConfirmPrompt buttonName="Unarchive" messageContent="Unarchiving this action will make it answerable again. Would you like to continue?" OnClickCallback="() => UnarchiveAction(action)" ActionConfirmName="Unarchive">
+                </ModalConfirmPrompt>
+
+                <ModalConfirmPrompt OnClickCallback="() => DeleteArchivedAction(action)" trashIcon="true" messageContent="Are you sure you want to delete this action? This will be deleted permanently" ActionConfirmName="Delete">
                 </ModalConfirmPrompt>
             </li>   
         </ul>

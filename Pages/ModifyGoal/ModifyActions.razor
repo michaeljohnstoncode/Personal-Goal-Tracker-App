@@ -6,10 +6,16 @@
 @inject GoalDatabase goalDatabase;
 
 <style>
+    .actions {
+        padding-bottom: 30px;
+        overflow-y: scroll;
+    }
+    
     .action-list {
         list-style: none;
         padding: 0;
         margin-bottom: 16px;
+        overflow-y: scroll;
     }
 
     .action-item {
@@ -20,7 +26,7 @@
         border-radius: 4px;
         margin-bottom: 8px;
     }
-
+    
         .action-item > * {
             margin-right: 8px;
         }
@@ -63,15 +69,13 @@
     </div>
 
     <!--  Display the actions and includes the option to archive them -->
-    <div>
+    <div class="actions">
         @foreach (var action in goalActions)
         {
             <ul class="action-list">
                 <li class="action-item">
                     <span>@action.Action</span>
-                    <ModalConfirmPrompt buttonName="Archive" messageContent="Are you sure you want to archive this?" OnClickCallback="() => ArchiveAction(action)" ActionConfirmName="Archive">
-
-                    </ModalConfirmPrompt>
+                    <ModalConfirmPrompt buttonName="Archive" messageContent="Are you sure you want to archive this?" OnClickCallback="() => ArchiveAction(action)" ActionConfirmName="Archive"></ModalConfirmPrompt>
                 </li>
             </ul>
         }
