@@ -2,7 +2,6 @@
 using TrainingProgressionApp.Data;
 using TrainingProgressionApp.Pages.GoalCalendar;
 
-
 namespace TrainingProgressionApp;
 
 public static class MauiProgram

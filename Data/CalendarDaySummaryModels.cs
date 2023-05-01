@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrainingProgressionApp.Data
+﻿namespace TrainingProgressionApp.Data
 {
 
     //Models used to hold Question and Action data for a specific goal entry day; presented on the page as a summary.

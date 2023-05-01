@@ -1,15 +1,9 @@
-﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TrainingProgressionApp.Data
 {
-	//Highest level class model for the Goal
-	public class Goal
+    //Highest level class model for the Goal
+    public class Goal
 	{
         [Required(ErrorMessage = "Goal title is required.")]
         public string Title { get; set; }
