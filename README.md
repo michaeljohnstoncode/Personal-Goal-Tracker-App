@@ -3,13 +3,12 @@
 Personal Goal Tracker is an Android mobile application that helps people track their goals and document their progress. Users can track their goals by adding questions, actions, and time spent per goal. The app provides a quick way for users to visualize their progress with a built-in calendar and statistics.
 
 ## Features
-
-- Add, modify, or archive goals
+[- Add, modify, or archive goals](https://user-images.githubusercontent.com/92060282/235726584-d2541db7-b807-441e-9efe-12956414e086.png)
 - Document time spent per goal
-- Add questions with numerical ratings and optional explanations
-- Add actions with numerical answers
-- View completed entries on a calendar
-- View goal progress with line charts
+[- Add questions with numerical ratings and optional explanations](https://user-images.githubusercontent.com/92060282/235729813-fc212cd5-4d8f-41f4-b2f1-e5c153a8cde0.png)
+[- Add actions with numerical answers](https://user-images.githubusercontent.com/92060282/235729702-c8c42d91-cba0-4210-a3bd-fcd0b92c3a5b.png)
+[- View completed entries on a calendar ](https://user-images.githubusercontent.com/92060282/235729116-0cfa80e9-1c5e-454d-a2d7-600baddd0269.png)[(get detailed view of entry)](https://user-images.githubusercontent.com/92060282/235732833-9ab2e0a1-a19b-47b4-b5aa-4c63ee61b9d5.png)
+[- View goal progress with line charts](https://user-images.githubusercontent.com/92060282/235728782-4f52697b-1cdb-4c8f-9d38-3a3bc37463c9.png)
 
 ## System Requirements
 
@@ -37,4 +36,3 @@ Personal Goal Tracker is an Android mobile application that helps people track t
 - Notification system for reminders
 - Additional statistics visualizations
 - Milestones and progress bars for goal tracking
-
