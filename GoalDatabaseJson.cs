@@ -67,7 +67,6 @@ namespace TrainingProgressionApp
         public void SaveItem(Goal item)
         {
             // Check if item exists in memory first
-            Console.WriteLine($"Directory: {FileSystem.Current.AppDataDirectory}/goals.json");
             var goalTitleList = _goalsInMemory.Select(i => i.Title).ToList();
             var goalTitle = goalTitleList.FirstOrDefault(i => i == item.Title);
             Console.WriteLine(goalTitle);

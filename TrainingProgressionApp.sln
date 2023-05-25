@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingProgressionApp", "TrainingProgressionApp.csproj", "{947162F4-9E8D-4291-BDA2-55754B30255C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalGoalTrackerTests", "..\PersonalGoalTrackerTests\PersonalGoalTrackerTests.csproj", "{DBA97C1D-75FA-4ECA-8DC5-A638C0360598}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +18,10 @@ Global
 		{947162F4-9E8D-4291-BDA2-55754B30255C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{947162F4-9E8D-4291-BDA2-55754B30255C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{947162F4-9E8D-4291-BDA2-55754B30255C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DBA97C1D-75FA-4ECA-8DC5-A638C0360598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA97C1D-75FA-4ECA-8DC5-A638C0360598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA97C1D-75FA-4ECA-8DC5-A638C0360598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA97C1D-75FA-4ECA-8DC5-A638C0360598}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
